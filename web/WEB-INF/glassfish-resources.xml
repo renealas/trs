@@ -6,7 +6,7 @@
         <property name="portNumber" value="3306"/>
         <property name="databaseName" value="trs"/>
         <property name="User" value="root"/>
-        <property name="Password" value=""/>
+        <property name="Password" value="r@ul1t012"/>
         <property name="URL" value="jdbc:mysql://trs-mysql:3306/trs?zeroDateTimeBehavior=convertToNull"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>
