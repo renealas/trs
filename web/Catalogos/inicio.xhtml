@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../Plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <center>
+                    <p:graphicImage name="logo.png" library="images"/>
+                    <p/>
+                    <p:panel id="pnlBienvenido" header="Tabernaculo Reporting System"
+			style="width: 350px; margin: 0 auto;">
+                        <h:panelGrid id="pnlGrdBienvenido" columns="1" cellpadding="5">
+                    <p:outputLabel value="Bienvenido"/><p:outputLabel value=" "/><p:outputLabel value="#{usuario.idnivel.descripcion} #{usuario.nombre} #{usuario.apellido}" style="font-weight: bold"/>
+                    <p/>
+                    <p:outputLabel value="Gracias por accesar a"/><p:outputLabel value=" "/><p:outputLabel value="Tabernaculo Reporting System" style="font-weight: bold"/><p:outputLabel value=" "/><p:outputLabel value="su programa personal para realizar Reportes."/>
+                    <p/>
+                    <p:outputLabel value="En la Barra de Menu Superior encontrara los botones del menu principal donde pueden elegir el tipo de Reporte que desean realizar."/>
+                    <p/>
+                    <p:outputLabel value="Cualquier informacion o Problema de la Aplicacion porfavor Reportela inmediatamente al encargado de la aplicacion."/>
+                    <p/>
+                    <p:outputLabel value="Para Reportar Errores mandar correo a"/><p:outputLabel value=" "/><h:outputLink value="rene.alas@chronotechsv.info">
+                        <f:param name="subject" value="Error en Pagina TRS" />
+                        <f:param name="body" value="Tengo un Error en Pagina TRS: (BORRE ESTE MENSAJE Y DESCRIBA EL ERROR)" />
+                        <h:outputText value="rene.alas@chronotechsv.info" style="font-weight: bold"/>
+                    </h:outputLink>
+                    </h:panelGrid>
+                    </p:panel>    
+                </center>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

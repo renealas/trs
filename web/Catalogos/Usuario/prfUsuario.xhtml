@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form  id="frmPrfUsuario">
+                <p:growl autoUpdate="true"/>
+                <p:panel header="Perfil del Usuario">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column colspan="2" rowspan="2">
+                                <p:graphicImage value="#{imagenesControl.image}" height="300px" width="300px">
+                                    <f:param name="userId" value="#{usuarioControl.usuarioSelected.idusuario}" />
+                                </p:graphicImage>
+                            </p:column> 
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="NOMBRE:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel style="font-weight:bold; color: #D20005" value="#{usuarioControl.usuarioSelected.idnivel.descripcion}"/><p:outputLabel value=" "/><p:outputLabel value="#{usuarioControl.usuarioSelected.nombre}"/><p:outputLabel value=" "/><p:outputLabel value="#{loginControl.usuarioValidado.apellido}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="IGLESIA A LA QUE ESTA ASOCIADO:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{usuarioControl.usuarioSelected.idiglesia.descripcion}"/> 
+                            </p:column>
+                        </p:row>                        
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="DUI:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{usuarioControl.usuarioSelected.dui}"/>
+                            </p:column>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="FECHA DE NACIMIENTO:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{usuarioControl.usuarioSelected.fechanac}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>  
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="ES GRADUADO DE TEOLOGIA?"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{usuarioControl.usuarioSelected.graduadoteo}"/>
+                            </p:column>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="ESCUELA DE TEOLOGIA:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{not empty usuarioControl.usuarioSelected.escuelateo ? usuarioControl.usuarioSelected.escuelateo : 'No Disponible' }"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="ESTADO CIVIL:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{usuarioControl.usuarioSelected.estadocivil}"/>
+                            </p:column>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="CONYUGE:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{not empty usuarioControl.usuarioSelected.conyuge ? usuarioControl.usuarioSelected.conyuge : 'No Disponible' }"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="TELEFONO FIJO:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{not empty usuarioControl.usuarioSelected.telefono ? usuarioControl.usuarioSelected.telefono : 'No Disponible' }"/>
+                            </p:column>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="TELEFONO MOBIL (CELULAR):"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{not empty usuarioControl.usuarioSelected.celular ? usuarioControl.usuarioSelected.celular : 'No Disponible' }"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="NIT:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{not empty usuarioControl.usuarioSelected.nit ? usuarioControl.usuarioSelected.nit : 'No Disponible' }"/>
+                            </p:column>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="NACIONALIDAD:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{usuarioControl.usuarioSelected.nacionalidad}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="ESTADO ACADEMICO:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{usuarioControl.usuarioSelected.estadoacad}"/>
+                            </p:column>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="PROFESION:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{usuarioControl.usuarioSelected.profesion}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="CORREO ELECTRONICO:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{not empty usuarioControl.usuarioSelected.email ? usuarioControl.usuarioSelected.email :'No Disponible'}"/>
+                            </p:column>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="ESTA EMPLEADO?"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{usuarioControl.usuarioSelected.empleado}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="LUGAR DE EMPLEO:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{not empty usuarioControl.usuarioSelected.lugarempleo ? usuarioControl.usuarioSelected.lugarempleo :'No Disponible'}"/>
+                            </p:column>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="USER NAME:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{usuarioControl.usuarioSelected.user}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:commandButton  value="REGRESAR" process="@this" action="lstUsuario.xhtml?faces-redirect=true" icon="ui-icon-info"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>       
+    </ui:define>
+
+</ui:composition>

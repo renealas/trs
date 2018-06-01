@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="812c3776-fb11-4ecd-bbf8-27854bcc8c70">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Titulo" forecolor="#FF0000" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="idIglesia" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT presentacion.FECHA, presentacion.NINOSPRESENT, iglesia.DESCRIPCION, iglesia.COMP
+FROM presentacion
+INNER JOIN  iglesia ON presentacion.IDIGLESIA = iglesia.IDIGLESIA
+WHERE iglesia.IDIGLESIA = ($P{idIglesia})
+AND presentacion.FECHA BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
+	</queryString>
+	<field name="FECHA" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NINOSPRESENT" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DESCRIPCION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="COMP" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="NINOSPRESENT_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{NINOSPRESENT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="92" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false">
+				<reportElement x="435" y="51" width="117" height="20" uuid="953a7f92-276e-4ca5-930e-fd1928e340e1"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="287" y="51" width="148" height="20" uuid="7c0ceb05-7e3f-40f1-a4c8-6f392e717b6a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Emision de Reporte:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="72" y="51" width="228" height="20" uuid="4d374233-ddd1-4663-99da-08a33366fa07"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte Generado para las fechas:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="71" width="100" height="20" uuid="48e78771-367b-40d1-a008-a32ce4d87b93"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Final:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="73" y="1" width="214" height="50" uuid="b38b1004-565f-4dc1-bbcf-a842c8a80958"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte Presentacion por Iglesia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="71" width="100" height="20" uuid="65251b70-41e0-4044-83fc-f4874e309fdd"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Inicial:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="2" y="1" width="71" height="79" uuid="74ec20a2-743f-461c-a946-7a710326cfee"/>
+				<imageExpression><![CDATA["C:\\Users\\Rene Alas\\Documents\\NetBeansProjects\\TRS\\web\\resources\\images\\logo.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement style="Titulo" x="474" y="1" width="81" height="50" uuid="0599a44c-d15f-41b4-9c33-d5cc962d35b6"/>
+				<box>
+					<bottomPen lineWidth="2.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPCION}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="202" y="71" width="100" height="20" uuid="b4884f03-32aa-4e24-943c-fbfd13f1852a"/>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="410" y="71" width="100" height="20" uuid="eaba2541-d318-472d-a84f-0bd3acfa3218"/>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Titulo" x="287" y="1" width="187" height="50" uuid="da6a26f4-c34e-4d83-926a-65cdbe6d70e7"/>
+				<box>
+					<bottomPen lineWidth="2.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COMP}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="220" height="20" uuid="4dabc9a4-ddb9-474c-86d3-3b2aa6bcda17"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="219" y="0" width="220" height="20" uuid="39f2d514-2f34-47d1-a6f0-0526928ba48c"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRESENTACIONES DE NIÑOS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="44">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="0" y="0" width="220" height="20" uuid="f27c7967-4e10-45d7-afab-18765999b30c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{FECHA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;#,##0-">
+				<reportElement x="219" y="0" width="220" height="20" uuid="0e546d3c-9ed8-4b92-b1ce-446e49e736d0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NINOSPRESENT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="439" y="0" width="116" height="33" uuid="ad50d6d8-a823-4444-b265-5d7b2236b80a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Presentaciones de Niños]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement x="438" y="1" width="116" height="33" uuid="54ca2869-fca0-4c5b-83a0-b3ddf23f6119"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Presentaciones de Niños]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="0" width="100" height="20" uuid="1ab2447d-d67e-489f-b29f-6e304ebb7b98"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="217" y="2" width="218" height="20" uuid="020b05b0-d547-484d-8596-bf55e109ab9a"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{NINOSPRESENT_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

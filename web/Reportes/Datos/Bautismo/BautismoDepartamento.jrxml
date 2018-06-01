@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b25bfab4-4d84-4217-ac7d-5854dbe86748">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Titulo" forecolor="#FF0000" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="idDepartamento" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT bautismos.FECHA, bautismos.BAUTISMOS, departamentos.DESCRIPCION
+FROM bautismos 
+INNER JOIN  iglesia ON bautismos.IDIGLESIA = iglesia.IDIGLESIA
+INNER JOIN  municipio ON iglesia.IDMUNICIPIO = municipio.IDMUNICIPIO
+INNER JOIN  departamentos ON municipio.IDDEPARTAMENTO = departamentos.IDDEPARTAMENTO
+WHERE departamentos.IDDEPARTAMENTO = ($P{idDepartamento})
+AND bautismos.FECHA BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
+	</queryString>
+	<field name="FECHA" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BAUTISMOS" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DESCRIPCION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="BAUTISMOS_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{BAUTISMOS}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="96" splitType="Stretch">
+			<staticText>
+				<reportElement x="73" y="3" width="366" height="29" uuid="e5bc25d5-4831-41e5-a2d0-137453b7b103"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Bautismo por Departamento:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="2" y="3" width="71" height="79" uuid="68ade10a-90d9-403a-9bd5-f70da92f7f84"/>
+				<imageExpression><![CDATA["C:\\Users\\Rene Alas\\Documents\\NetBeansProjects\\TRS\\web\\resources\\images\\logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="104" y="73" width="100" height="20" uuid="f5ca4a76-85bf-425e-9db0-ffce9f87f0d9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Inicial:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="54" width="228" height="20" uuid="a1b37700-e3ec-4483-9799-e4d2ad71d321"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte Generado para las fechas:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="73" width="100" height="20" uuid="6756f059-ead5-424b-b32b-fe8381ffd83b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Final:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="34" width="148" height="20" uuid="f7def53b-db10-4f72-a1be-ce935d02dcd2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Emision de Reporte:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false">
+				<reportElement x="438" y="34" width="117" height="20" uuid="7190652b-1a19-43df-80e3-5ba8ee40cf65"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="203" y="73" width="100" height="20" uuid="b2d33a69-0f91-4764-8c70-69ce64dbf7bb"/>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="410" y="73" width="100" height="20" uuid="28343bf4-149c-4f79-b17c-08a05a321041"/>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Titulo" x="438" y="4" width="117" height="28" uuid="816b0a93-19af-4f7a-8b2f-03840df8af07"/>
+				<box>
+					<bottomPen lineWidth="2.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPCION}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="229" height="20" uuid="c38f9f48-a27e-4308-8672-cc29c8e575e5"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="229" y="0" width="209" height="20" uuid="f9491380-89a9-4ab1-9172-1646c318c0be"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BAUTISMOS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="0" y="0" width="229" height="20" uuid="1857c9e6-e994-418a-a216-22fbf2a8f781"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{FECHA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;#,##0-">
+				<reportElement x="229" y="0" width="209" height="20" uuid="6173034c-80c4-4830-a68b-95dabfa781ff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{BAUTISMOS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="438" y="2" width="117" height="20" uuid="488f7258-acfc-46c8-ad65-34b674b26d2f"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bautismos	]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="438" y="0" width="117" height="20" uuid="ef19ce09-b75b-4ffe-8daa-350acef1b37e"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bautismos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="0" width="100" height="20" uuid="387fb669-7846-4995-8e1f-0e924b94fac2"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="231" y="0" width="207" height="20" uuid="948ae991-526b-4b50-b2a9-90226e17585e"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{BAUTISMOS_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

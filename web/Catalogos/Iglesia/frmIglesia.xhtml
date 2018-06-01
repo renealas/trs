@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form id="frmAcciones">
+                <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">        
+                    <p:panel header="Informacion de Iglesia">
+                        <p:panelGrid columns="1">
+                            <p:tabView orientation="top">
+                                <p:tab title="Información de necesaria Iglesia">
+                                    <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">
+                                        <p:outputLabel style="font-weight:bold" for="comp" value="Tipo de Iglesia"/>
+                                        <p:selectOneMenu id="comp" value="#{iglesiaControl.iglesiaSelected.comp}" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}">
+                                            <f:selectItem itemLabel="---Seleccione el tipo de Iglesia---" itemValue="#{null}"/>
+                                            <f:selectItem itemValue="Tabernaculo Biblico Bautista" itemLabel="Tabernaculo Biblico Bautista" />
+                                            <f:selectItem itemValue="Mision Bautista" itemLabel="Mision Bautista" />
+                                        </p:selectOneMenu>
+                                        <p:outputLabel id="comptxt" value="#{loginControl.usuarioValidado.idiglesia.comp}" style="text-decoration: #3a87ad; text-align: center; font-weight: bold" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 3 || loginControl.usuarioValidado.idnivel.idnivel == 4}"/>
+
+
+                                        <p:outputLabel style="font-weight:bold" for="municipio" value="Muncipio (Ciudad)"/>
+                                        <p:selectOneMenu id="municipio" converter="entityConverter" var="municipio" value="#{iglesiaControl.iglesiaSelected.idmunicipio}" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}" filter="true" filterMatchMode="contains">
+                                            <f:selectItem itemLabel="---Seleccione el Municipio o Ciudad---" itemValue="#{null}"/>
+                                            <f:selectItems value="#{iglesiaControl.lstMunicipio}" var="municipio" itemLabel="#{municipio.descripcion}" itemValue="#{municipio}"/>
+                                            <p:column>
+                                                <h:outputText value="#{municipio.descripcion}"/>
+                                            </p:column>
+                                        </p:selectOneMenu>
+                                        <p:outputLabel id="municipiotxt" value="#{loginControl.usuarioValidado.idiglesia.idmunicipio.descripcion}" style="text-decoration: #3a87ad; text-align: center; font-weight: bold" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 3 || loginControl.usuarioValidado.idnivel.idnivel == 4}"/>
+
+                                        <p:outputLabel style="font-weight:bold" for="codigo" value="Codigo"/>
+                                        <p:inputText id="codigo" value="#{iglesiaControl.iglesiaSelected.codigo}" placeholder="Codigo de la Iglesia" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}" required="true"/>                                     
+                                        <p:outputLabel id="codigotxt" value="#{loginControl.usuarioValidado.idiglesia.codigo}" style="text-decoration: #3a87ad; text-align: center; font-weight: bold" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 3 || loginControl.usuarioValidado.idnivel.idnivel == 4}"/>
+
+                                        <p:outputLabel style="font-weight:bold" for="iglesia" value="Iglesia"/>
+                                        <p:inputText id="iglesia" value="#{iglesiaControl.iglesiaSelected.descripcion}" placeholder="Nombre de la Iglesia" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}" required="true"/>
+                                        <p:outputLabel id="iglesiatxt" value="#{loginControl.usuarioValidado.idiglesia.descripcion}" style="text-decoration: #3a87ad; text-align: center; font-weight: bold" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 3 || loginControl.usuarioValidado.idnivel.idnivel == 4}"/>
+
+                                        <p:outputLabel style="font-weight:bold" for="direccion" value="Direccion"/>
+                                        <p:inputTextarea id="direccion" value="#{iglesiaControl.iglesiaSelected.direccion}" placeholder="Direccion de la Iglesia" />
+
+                                    </p:panelGrid>
+                                </p:tab>
+
+                                <p:tab title="Información addicional de Iglesia">
+
+                                    <p:panelGrid columns="2" styleClass="panelGridCenter">
+
+                                        <p:outputLabel style="font-weight:bold" for="facebook" value="Facebook"/>
+                                        <p:inputText id="facebook" value="#{iglesiaControl.iglesiaSelected.facebook}" placeholder="Facebook de la Iglesia" />
+
+                                        <p:outputLabel style="font-weight:bold" for="twitter" value="Twitter"/>
+                                        <p:inputText id="twitter" value="#{iglesiaControl.iglesiaSelected.twitter}" placeholder="Twitter de la Iglesia"/>
+
+                                        <p:outputLabel style="font-weight:bold" for="paginaweb" value="Pagina Web"/>
+                                        <p:inputText id="paginaweb" value="#{iglesiaControl.iglesiaSelected.paginaweb}" placeholder="Pagina Web de la Iglesia" />
+
+                                        <p:outputLabel style="font-weight:bold" for="fundacion" value="Fecha de Fundacion"/>
+                                        <p:calendar id="fundacion" value="#{iglesiaControl.iglesiaSelected.fundacion}" placeholder="Fecha de Fundacion de la Iglesia"/>
+
+                                    </p:panelGrid>
+                                </p:tab>
+                            </p:tabView>   
+
+                            <p:commandButton value="#{iglesiaControl.accion}" action="#{iglesiaControl.doAccion}" icon="ui-icon-check"/>
+                            <p:commandButton value="CANCELAR" process="@this" action="lstIglesia.xhtml?faces-redirect=true" icon="ui-icon-circle-close" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}"/>
+                            <p:commandButton value="CANCELAR" process="@this" action="/faces/Catalogos/inicio.xhtml" icon="ui-icon-circle-close" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 3 || loginControl.usuarioValidado.idnivel.idnivel == 4}"/>
+                        </p:panelGrid>
+                    </p:panel>
+                </p:panelGrid>  
+            </h:form>
+
+        </div>     
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form id="frmBoda">
+                <p:growl autoUpdate="true"/>
+                <p:dataTable var="boda" paginator="true" rows="5" paginatorPosition="bottom" rowHover="true" rowsPerPageTemplate="2,4,6"  widgetVar="wtblBoda" value="#{loginControl.usuarioValidado.idnivel.idnivel >2  ? bodaControl.lstBoda : bodaControl.lstBodaAdmin}" id="tblBoda" filteredValue="#{bodaControl.lstBodaFiltrada}" styleClass="fixed-size" reflow="true">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputLabel value="Búsqueda: "/>
+                            <p:inputText id="globalFilter" 
+                                         onkeyup="PF('wtblBoda').filter()" 
+                                         style="text-input" 
+                                         placeholder="Ingrese la búsqueda"/>
+                            <p:commandButton value="NUEVA BODA" action="frmBoda.xhtml?faces-redirect=true" actionListener="#{bodaControl.limpiarObjeto()}" icon="ui-icon-circle-plus">
+                                <f:setPropertyActionListener target="#{bodaControl.accion}" value="AGREGAR"/>
+                            </p:commandButton>    
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:column headerText="FECHA" filterBy="#{boda.fecha}" sortBy="#{boda.fecha}">
+                        <p:outputLabel value="#{boda.fecha}">
+                            <f:convertDateTime pattern="dd-MMMM-yyyy" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="BODAS EFECTUADAS" filterBy="#{boda.bodas}" sortBy="#{boda.bodas}">
+                        <p:outputLabel value="#{boda.bodas}"/>
+                    </p:column>
+                    <p:column headerText="IGLESIA" filterBy="#{boda.idiglesia}" sortBy="#{boda.idiglesia}">
+                        <p:outputLabel value="#{boda.idiglesia.descripcion}"/>
+                    </p:column>
+                    <p:column headerText="PUBLICADO POR" filterBy="#{boda.idusuario.apellido}" sortBy="#{boda.idusuario.apellido}">
+                        <p:outputLabel value="#{boda.idusuario.idnivel.descripcion.concat(' ').concat(boda.idusuario.nombre).concat(boda.idusuario.apellido)}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="MODIFICAR BODA" action="frmBoda.xhtml?faces-redirect=true" icon="ui-icon-pencil" style="buttonwrap">
+                            <f:setPropertyActionListener target="#{bodaControl.accion}" value="MODIFICAR"/>
+                            <f:setPropertyActionListener target="#{bodaControl.bodaSelected}" value="#{boda}"/>
+                        </p:commandButton>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="BORRAR BODA" oncomplete="PF('wdlgBorrar').show()" update=":frmBoda" icon="ui-icon-trash">
+                            <f:setPropertyActionListener target="#{bodaControl.bodaSelected}" value="#{boda}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>    
+
+            <p:dialog widgetVar="wdlgBorrar" id="dlgBorrar" modal="true">
+                <h:form>    
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="Desea borrar la Boda seleccionada?"/>.
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:commandButton value="SI" oncomplete="PF('wdlgBorrar').hide()" actionListener="#{bodaControl.borrarBoda()}" update=":frmBoda" ajax="true"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="NO" oncomplete="PF('wdlgBorrar').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog> 
+        </div>
+    </ui:define>
+
+</ui:composition>

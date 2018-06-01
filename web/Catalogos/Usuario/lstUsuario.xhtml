@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+          <div class="ui-fluid">
+        <h:form id="frmUsuario">
+            <p:remoteCommand autoRun="true" actionListener="#{loginControl.menurender}" value="1" />
+            <p:growl autoUpdate="true"/>
+            <p:dataTable var="usuario" paginator="true" rows="10" paginatorPosition="bottom" rowHover="true" rowsPerPageTemplate="10,20,30"  widgetVar="wtblUsuario" value="#{usuarioControl.lstUsuario}" id="tblUsuario" filteredValue="#{usuarioControl.lstUsuarioFiltrada}" styleClass="fixed-size" reflow="true">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputLabel value="Búsqueda: "/>
+                        <p:inputText id="globalFilter" 
+                                     onkeyup="PF('wtblUsuario').filter()" 
+                                     style="text-input" 
+                                     placeholder="Ingrese la búsqueda"/>
+                       <br/>
+                        <p:commandButton value="NUEVA USUARIO" action="frmUsuario.xhtml?faces-redirect=true" actionListener="#{usuarioControl.limpiarObjeto()}" icon="ui-icon-circle-plus">
+                        <f:setPropertyActionListener target="#{usuarioControl.accion}" value="AGREGAR"/>
+                        </p:commandButton>  
+                    </p:outputPanel>
+                </f:facet>
+                <p:column headerText="TIPO DE ACCESSO" filterBy="#{usuario.idnivel.descripcion}" sortBy="#{usuario.idnivel.descripcion}" resizable="true" styleClass="myTable">        
+                    <p:outputLabel value="#{usuario.idnivel.descripcion}"/>
+                </p:column>
+                <p:column headerText="NOMBRE" filterBy="#{usuario.nombre}" sortBy="#{usuario.nombre}" resizable="true" styleClass="myTable">
+                    <p:outputLabel value="#{usuario.nombre}"/>
+                </p:column>
+                <p:column headerText="APELLIDO" filterBy="#{usuario.apellido}" sortBy="#{usuario.apellido}" resizable="true" styleClass="myTable">
+                    <p:outputLabel value="#{usuario.apellido}"/>
+                </p:column>
+                <p:column headerText="USUARIO" resizable="true" styleClass="myTable">
+                    <p:outputLabel value="#{usuario.user}"/>
+                </p:column>
+                <p:column headerText="IGLESIA PERTENECIENTE" filterBy="#{usuario.idiglesia.descripcion}" sortBy="#{usuario.idiglesia.descripcion}" resizable="true" styleClass="myTable">
+                    <p:outputLabel value="#{usuario.idiglesia.descripcion}"/>
+                </p:column>
+        
+                <p:column headerText="ACCIONES" resizable="true" styleClass="myTable">         
+                    <p:commandButton title="MODIFICAR USUARIO" action="frmUsuario.xhtml?faces-redirect=true" icon="ui-icon-pencil" style="buttonwrap">
+                        <f:setPropertyActionListener target="#{usuarioControl.accion}" value="MODIFICAR"/>
+                        <f:setPropertyActionListener target="#{usuarioControl.usuarioSelected}" value="#{usuario}"/>
+                    </p:commandButton>
+                    <p:commandButton title="BORRAR USUARIO" onclick="PF('wdlgBorrar').show();" update=":frmUsuario" icon="ui-icon-trash" disabled="#{usuario.idnivel.idnivel == 1}" style="buttonwrap">
+                        <f:setPropertyActionListener target="#{usuarioControl.usuarioSelected}" value="#{usuario}"/>
+                    </p:commandButton>
+                     <p:commandButton title="PERFIL DEL USUARIO" action="prfUsuario.xhtml?faces-redirect=true" icon="ui-icon-info" style="buttonwrap">
+                       <f:setPropertyActionListener target="#{usuarioControl.usuarioSelected}" value="#{usuario}"/>
+                    </p:commandButton>
+                    <p:commandButton title="RESET PASSWORD USUARIO" onclick="PF('wdlgPassRes').show();" update=":frmUsuario" icon="ui-icon-locked" style="buttonwrap">
+                       <f:setPropertyActionListener target="#{usuarioControl.usuarioSelected}" value="#{usuario}"/>
+                    </p:commandButton>
+                </p:column>
+                
+            </p:dataTable>
+        </h:form>   
+              
+    </div>
+        <p:dialog widgetVar="wdlgBorrar" modal="true" resizable="false" position="center top" draggable="false">
+            <h:form>    
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:outputLabel value="Desea borrar al Usuario seleccionado?"/>.
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="SI" oncomplete="PF('wdlgBorrar').hide()" action="#{usuarioControl.borrarUsuario()}" update=":frmUsuario" ajax="true"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="NO" oncomplete="PF('wdlgBorrar').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>           
+        </p:dialog> 
+      <p:dialog widgetVar="wdlgPassRes" modal="true" height="100" resizable="false" position="center top" draggable="false">
+            <h:form>    
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:outputLabel value="Desea Resetear Password al Usuario seleccionado?"/>.
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="SI" oncomplete="PF('wdlgPassRes').hide()" action="#{usuarioControl.resetPasswordByAdmin()}" update=":frmUsuario" ajax="true"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="NO" oncomplete="PF('wdlgPassRes').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+           
+        </p:dialog> 
+    </ui:define>
+  
+</ui:composition>

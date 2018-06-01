@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+         <h:form id="frmDepartamento">
+            <p:growl autoUpdate="true"/>
+            <p:dataTable var="departamento" paginator="true" rows="5" paginatorPosition="bottom" rowHover="true" rowsPerPageTemplate="5,10,15"  widgetVar="wtblDepartamento" value="#{departamentosControl.lstDepartamento}" id="tblDepartamento" filteredValue="#{departamentosControl.lstDepartamentoFiltrada}" styleClass="fixed-size" reflow="true">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputLabel value="Búsqueda: "/>
+                        <p:inputText id="globalFilter" 
+                                     onkeyup="PF('wtblDepartamento').filter()" 
+                                     style="text-input" 
+                                     placeholder="Ingrese la búsqueda"/>
+                        <p:commandButton value="NUEVO DEPARTAMENTO" action="frmDepartamento.xhtml?faces-redirect=true" actionListener="#{departamentosControl.limpiarObjeto()}" icon="ui-icon-circle-plus">
+                            <f:setPropertyActionListener target="#{departamentosControl.accion}" value="AGREGAR"/>
+                        </p:commandButton>    
+                    </p:outputPanel>
+                </f:facet>
+                <p:column headerText="PAIS" filterBy="#{departamento.idpais.descripcion}" sortBy="#{departamento.idpais.descripcion}">
+                    <p:outputLabel value="#{departamento.idpais.descripcion}"/>
+                </p:column>
+                <p:column headerText="ZONA" filterBy="#{departamento.idzona.descripcion}" sortBy="#{departamento.idzona.descripcion}">
+                    <p:outputLabel value="#{departamento.idzona.descripcion}"/>
+                </p:column>
+                <p:column headerText="DEPARTAMENTO(ESTADO O PROVINCIA)" filterBy="#{departamento.descripcion}" sortBy="#{departamento.descripcion}">
+                    <p:outputLabel value="#{departamento.descripcion}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="MODIFICAR DEPARTAMENTO" action="frmDepartamento.xhtml?faces-redirect=true" icon="ui-icon-pencil" style="buttonwrap">
+                        <f:setPropertyActionListener target="#{departamentosControl.accion}" value="MODIFICAR"/>
+                        <f:setPropertyActionListener target="#{departamentosControl.departamentoSelected}" value="#{departamento}"/>
+                    </p:commandButton>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="BORRAR DEPARTAMENTO" oncomplete="PF('wdlgBorrar').show()" update=":frmDepartamento" icon="ui-icon-trash">
+                        <f:setPropertyActionListener target="#{departamentosControl.departamentoSelected}" value="#{departamento}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>        
+        <p:dialog widgetVar="wdlgBorrar" id="dlgBorrar" modal="true">
+            <h:form>    
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:outputLabel value="Desea borrar el Departamento, Estado o Provincia seleccionado?"/>.
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="SI" oncomplete="PF('wdlgBorrar').hide()" actionListener="#{departamentosControl.borrarDepartamento()}" update=":frmDepartamento" ajax="true"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="NO" oncomplete="PF('wdlgBorrar').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        </div>
+    </ui:define>
+
+</ui:composition>

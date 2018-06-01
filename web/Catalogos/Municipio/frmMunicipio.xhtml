@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form id="frmAcciones">
+                <p:panelGrid columns="2">
+                    <p:outputLabel style="font-weight:bold" for="departamento" value="Departamento(Estado o Provincia)"/>
+                    <p:selectOneMenu id="departamento" converter="entityConverter" var="departamento" value="#{municipioControl.municipioSelected.iddepartamento}" filter="true" filterMatchMode="contains" required="true">
+                        <f:selectItem itemLabel="---Seleccione el Departamento---" itemValue="#{null}"/>
+                        <f:selectItems value="#{municipioControl.lstDepartamento}" var="departamento" itemLabel="#{departamento.descripcion}" itemValue="#{departamento}"/>
+                        <p:column>
+                            <h:outputText value="#{departamento.descripcion}"/>
+                        </p:column>
+                    </p:selectOneMenu>
+                    <p:outputLabel style="font-weight:bold" for="municipio" value="Municipio (Ciudad)"/>
+                    <p:inputText id="municipio" value="#{municipioControl.municipioSelected.descripcion}" placeholder="Nombre del Municipio(Ciudad)" required="true"/>
+                    <p:commandButton value="#{municipioControl.accion}" action="#{municipioControl.doAccion}" icon="ui-icon-check"/>
+                    <p:commandButton value="CANCELAR" process="@this" action="lstMunicipio.xhtml?faces-redirect=true" icon="ui-icon-circle-close"/>
+                </p:panelGrid>                
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

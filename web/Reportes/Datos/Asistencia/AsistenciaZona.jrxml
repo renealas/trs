@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="02eb1223-5b8b-4343-8e61-1b0cde8ff58f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Titulo" forecolor="#FF3333" hAlign="Center" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="idZona" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT asistencia.FECHA, asistencia.ASISTENCIAADULTOS,  asistencia.ASISTENCIANINOS, zona.DESCRIPCION
+FROM asistencia 
+INNER JOIN  iglesia ON asistencia.IDIGLESIA = iglesia.IDIGLESIA
+INNER JOIN  municipio ON iglesia.IDMUNICIPIO = municipio.IDMUNICIPIO
+INNER JOIN  departamentos ON municipio.IDDEPARTAMENTO = departamentos.IDDEPARTAMENTO
+INNER JOIN  zona ON departamentos.IDZONA = zona.IDZONA
+WHERE zona.IDZONA = ($P{idZona})
+AND asistencia.FECHA BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
+	</queryString>
+	<field name="FECHA" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ASISTENCIAADULTOS" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ASISTENCIANINOS" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DESCRIPCION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="ASISTENCIAADULTOS_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{ASISTENCIAADULTOS}]]></variableExpression>
+	</variable>
+	<variable name="ASISTENCIANINOS_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{ASISTENCIANINOS}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="71" height="79" uuid="f76fb078-872b-485f-b720-5fe44652b133"/>
+				<imageExpression><![CDATA["C:\\Users\\Rene Alas\\Documents\\NetBeansProjects\\TRS\\web\\resources\\images\\logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="71" y="0" width="291" height="29" uuid="653d18fe-59f4-4c6e-8a03-5deaaa6e8be9"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Asistencia por Zona:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="31" width="148" height="20" uuid="2d764b88-0858-4ca5-b237-2cf354caafa5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Emision de Reporte:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false">
+				<reportElement x="428" y="31" width="126" height="20" uuid="fe8faae6-45d3-4991-823b-7756a04ce86d"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Titulo" x="362" y="0" width="180" height="29" uuid="8eb8d086-5795-49a8-a613-da8c217e27f9"/>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineColor="#000000"/>
+					<bottomPen lineWidth="2.0" lineColor="#000000"/>
+					<rightPen lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPCION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="93" y="68" width="100" height="20" uuid="c39ed881-f11a-4a08-b002-7c3b453708ff"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Inicial:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="68" width="100" height="20" uuid="feb51816-031d-43eb-b645-3982c8da98e0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Final:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="93" y="49" width="228" height="20" uuid="b3b86f4b-4a06-4f16-afa2-f7fae50069dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte Generado para las fechas:]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="192" y="68" width="100" height="20" uuid="d0510bb3-aa93-489b-ad97-46fadcedbcf2"/>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="389" y="68" width="100" height="20" uuid="a319d344-88a4-47c8-872a-fee74b0eb229"/>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="1" width="213" height="20" uuid="20053850-542d-48eb-80de-199b408158dc"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="215" y="1" width="149" height="20" uuid="7d492105-546c-4875-b41f-3e1f2eca6af5"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ASISTENCIA DE ADULTOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="1" width="125" height="20" uuid="9443d7c2-56e2-46cc-9f3e-3690d1590293"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ASISTENCIA DE NINOS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="0" y="0" width="213" height="20" uuid="a3c1edc5-2324-4661-8645-c86f97bf433a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{FECHA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="215" y="-1" width="149" height="20" uuid="fe607d3d-83b2-48ae-ad53-3fbecbe8945f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ASISTENCIAADULTOS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="364" y="-1" width="125" height="20" uuid="8b579680-2501-4c5d-bdd5-74e88834af53"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ASISTENCIANINOS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="21" splitType="Immediate">
+			<staticText>
+				<reportElement x="115" y="1" width="100" height="20" uuid="18290219-bdd2-4aa4-b09d-5748f515f156"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="214" y="-2" width="149" height="20" uuid="a9f03919-1824-4b73-976c-e276e3902fa4"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+					<rightPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{ASISTENCIAADULTOS_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="363" y="-2" width="125" height="20" uuid="4aa68c0d-8bb3-48e1-89c9-07b40a267e78"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{ASISTENCIANINOS_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

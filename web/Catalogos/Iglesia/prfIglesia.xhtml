@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form  id="frmPrfIglesia">
+                <p:growl autoUpdate="true"/>
+                <p:panel header="Perfil de Iglesia">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="NOMBRE DE IGLESIA:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel style="font-weight:bold; color: #D20005" value="#{loginControl.usuarioValidado.idiglesia.comp}"/><p:outputLabel value=" "/><p:outputLabel style="font-weight:bold; color: #234b8c" value="#{loginControl.usuarioValidado.idiglesia.descripcion}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="CODIGO DE IGLESIA:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{loginControl.usuarioValidado.idiglesia.codigo}"/> 
+                            </p:column>
+                        </p:row>                        
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="DIRECCION:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{loginControl.usuarioValidado.idiglesia.direccion}"/><p:outputLabel value=","/><p:outputLabel value=" "/><p:outputLabel value="#{loginControl.usuarioValidado.idiglesia.idmunicipio.descripcion}"/><p:outputLabel value=","/><p:outputLabel value=" "/><p:outputLabel value="#{loginControl.usuarioValidado.idiglesia.idmunicipio.iddepartamento.descripcion}"/>
+                            </p:column>
+                       </p:row>  
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="ZONA A LA QUE PERTENECE:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{loginControl.usuarioValidado.idiglesia.idmunicipio.iddepartamento.idzona.descripcion}"/>                    </p:column>
+                        </p:row> 
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="FECHA DE FUNDACION:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{not empty loginControl.usuarioValidado.idiglesia.fundacion ? loginControl.usuarioValidado.idiglesia.fundacion : 'No Disponible'}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>  
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="PAGINA DE FACEBOOK DE LA IGLESIA"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{not empty loginControl.usuarioValidado.idiglesia.facebook ? loginControl.usuarioValidado.idiglesia.facebook : 'No Disponible'}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="TWITTER DE LA IGLESIA:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{not empty loginControl.usuarioValidado.idiglesia.twitter ? loginControl.usuarioValidado.idiglesia.twitter : 'No Disponible'}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column> 
+                                <p:outputLabel style="font-weight:bold" value="PAGINA WEB DE LA IGLESIA:"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{not empty loginControl.usuarioValidado.idiglesia.paginaweb ? loginControl.usuarioValidado.idiglesia.paginaweb : 'No Disponible'}"/>
+                            </p:column>
+</p:row>                                      
+                       <p:row>
+                             <p:column>
+                                <p:commandButton value="MODIFICAR INFORMACION" action="frmIglesia.xhtml?faces-redirect=true" icon="ui-icon-pencil" style="buttonwrap">
+                        <f:setPropertyActionListener target="#{iglesiaControl.accion}" value="ACTUALIZAR"/>
+                        <f:setPropertyActionListener target="#{iglesiaControl.iglesiaSelected}" value="#{loginControl.usuarioValidado.idiglesia}"/>
+                    </p:commandButton>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton  value="REGRESAR" process="@this" action="/faces/Catalogos/inicio.xhtml" icon="ui-icon-home"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+         <div class="ui-fluid">
+         <h:form id="frmAsistencia">
+            <p:growl autoUpdate="true"/>
+            <p:dataTable var="asistencia" paginator="true" rows="5" paginatorPosition="bottom" rowHover="true" rowsPerPageTemplate="2,4,6"  widgetVar="wtblAsistencia" value="#{loginControl.usuarioValidado.idnivel.idnivel >2  ? asistenciaControl.lstAsistencia : asistenciaControl.lstAsistenciaAdmin}" id="tblAsistencia" filteredValue="#{asistenciaControl.lstAsistenciaFiltrada}" styleClass="fixed-size" reflow="true">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputLabel value="Búsqueda: "/>
+                        <p:inputText id="globalFilter" 
+                                     onkeyup="PF('wtblAsistencia').filter()" 
+                                     style="text-input" 
+                                     placeholder="Ingrese la búsqueda"/>
+                        <p:commandButton value="NUEVA ASISTENCIA" action="frmAsistencia.xhtml?faces-redirect=true" actionListener="#{asistenciaControl.limpiarObjeto()}" icon="ui-icon-circle-plus">
+                            <f:setPropertyActionListener target="#{asistenciaControl.accion}" value="AGREGAR"/>
+                        </p:commandButton>    
+                    </p:outputPanel>
+                </f:facet>
+                <p:column headerText="FECHA" filterBy="#{asistencia.fecha}" sortBy="#{asistencia.fecha}">
+                    <p:outputLabel value="#{asistencia.fecha}">
+                    <f:convertDateTime pattern="dd-MMMM-yyyy" />
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="CULTO" filterBy="#{asistencia.idculto.descripcion}" sortBy="#{asistencia.idculto.descripcion}">
+                    <p:outputLabel value="#{asistencia.idculto.descripcion}"/>
+                </p:column>
+                <p:column headerText="CANTIDAD DE ASISTENCIA ADULTOS" filterBy="#{asistencia.asistenciaadultos}" sortBy="#{asistencia.asistenciaadultos}">
+                    <p:outputLabel value="#{asistencia.asistenciaadultos}"/>
+                </p:column>
+                <p:column headerText="CANTIDAD DE ASISTENCIA NINOS" filterBy="#{asistencia.asistencianinos}" sortBy="#{asistencia.asistencianinos}">
+                    <p:outputLabel value="#{asistencia.asistencianinos}"/>
+                </p:column>
+                <p:column headerText="IGLESIA" filterBy="#{asistencia.idiglesia}" sortBy="#{asistencia.idiglesia}">
+                    <p:outputLabel value="#{asistencia.idiglesia.descripcion}"/>
+                </p:column>
+                <p:column headerText="PUBLICADO POR" filterBy="#{asistencia.idusuario.apellido}" sortBy="#{asistencia.idusuario.apellido}">
+                    <p:outputLabel value="#{asistencia.idusuario.idnivel.descripcion.concat(' ').concat(asistencia.idusuario.nombre).concat(asistencia.idusuario.apellido)}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="MODIFICAR ASISTENCIA" action="frmAsistencia.xhtml?faces-redirect=true" icon="ui-icon-pencil" style="buttonwrap">
+                        <f:setPropertyActionListener target="#{asistenciaControl.accion}" value="MODIFICAR"/>
+                        <f:setPropertyActionListener target="#{asistenciaControl.asistenciaSelected}" value="#{asistencia}"/>
+                    </p:commandButton>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="BORRAR ASISTENCIA" oncomplete="PF('wdlgBorrar').show()" update=":frmAsistencia" icon="ui-icon-trash">
+                        <f:setPropertyActionListener target="#{asistenciaControl.asistenciaSelected}" value="#{asistencia}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>    
+
+        <p:dialog widgetVar="wdlgBorrar" id="dlgBorrar" modal="true">
+            <h:form>    
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:outputLabel value="Desea borrar la Asistencia seleccionada?"/>.
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                           <p:commandButton value="SI" oncomplete="PF('wdlgBorrar').hide()" actionListener="#{asistenciaControl.borrarAsistencia()}" update=":frmAsistencia" ajax="true"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="NO" oncomplete="PF('wdlgBorrar').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog> 
+        </div>
+    </ui:define>
+
+</ui:composition>

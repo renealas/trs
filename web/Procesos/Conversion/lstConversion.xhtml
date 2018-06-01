@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form id="frmConversion">
+                <p:growl autoUpdate="true"/>
+                <p:dataTable var="conversion" paginator="true" rows="5" paginatorPosition="bottom" rowHover="true" rowsPerPageTemplate="2,4,6"  widgetVar="wtblConversion" value="#{loginControl.usuarioValidado.idnivel.idnivel >2  ? conversionControl.lstConversion : conversionControl.lstConversionAdmin}" id="tblConversion" filteredValue="#{conversionControl.lstConversionFiltrada}" styleClass="fixed-size" reflow="true">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputLabel value="Búsqueda: "/>
+                            <p:inputText id="globalFilter" 
+                                         onkeyup="PF('wtblConversion').filter()" 
+                                         style="text-input" 
+                                         placeholder="Ingrese la búsqueda"/>
+                            <p:commandButton value="NUEVA CONVERSION" action="frmConversion.xhtml?faces-redirect=true" actionListener="#{conversionControl.limpiarObjeto()}" icon="ui-icon-circle-plus">
+                                <f:setPropertyActionListener target="#{conversionControl.accion}" value="AGREGAR"/>
+                            </p:commandButton>    
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:column headerText="FECHA" filterBy="#{conversion.fecha}" sortBy="#{conversion.fecha}">
+                        <p:outputLabel value="#{conversion.fecha}">
+                            <f:convertDateTime pattern="dd-MMMM-yyyy" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="CULTO" filterBy="#{conversion.idculto.descripcion}" sortBy="#{conversion.idculto.descripcion}">
+                    <p:outputLabel value="#{conversion.idculto.descripcion}"/>
+                </p:column>
+                    <p:column headerText="CONVERSIONES" filterBy="#{conversion.conversiones}" sortBy="#{conversion.conversiones}">
+                        <p:outputLabel value="#{conversion.conversiones}"/>
+                    </p:column>
+                    <p:column headerText="IGLESIA" filterBy="#{conversion.idiglesia}" sortBy="#{conversion.idiglesia}">
+                        <p:outputLabel value="#{conversion.idiglesia.descripcion}"/>
+                    </p:column>
+                    <p:column headerText="PUBLICADO POR" filterBy="#{conversion.idusuario.apellido}" sortBy="#{conversion.idusuario.apellido}">
+                        <p:outputLabel value="#{conversion.idusuario.idnivel.descripcion.concat(' ').concat(conversion.idusuario.nombre).concat(conversion.idusuario.apellido)}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="MODIFICAR CONVERSIONES" action="frmConversion.xhtml?faces-redirect=true" icon="ui-icon-pencil" style="buttonwrap">
+                            <f:setPropertyActionListener target="#{conversionControl.accion}" value="MODIFICAR"/>
+                            <f:setPropertyActionListener target="#{conversionControl.conversionSelected}" value="#{conversion}"/>
+                        </p:commandButton>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="BORRAR CONVERSIONES" oncomplete="PF('wdlgBorrar').show()" update=":frmConversion" icon="ui-icon-trash">
+                            <f:setPropertyActionListener target="#{conversionControl.conversionSelected}" value="#{conversion}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>    
+
+            <p:dialog widgetVar="wdlgBorrar" id="dlgBorrar" modal="true">
+                <h:form>    
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel value="Desea borrar la Conversion seleccionada?"/>.
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:commandButton value="SI" oncomplete="PF('wdlgBorrar').hide()" actionListener="#{conversionControl.borrarConversion()}" update=":frmConversion" ajax="true"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="NO" oncomplete="PF('wdlgBorrar').hide()"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog> 
+        </div>
+    </ui:define>
+
+</ui:composition>

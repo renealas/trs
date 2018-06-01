@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="7d7f4401-b234-49a1-be49-c6a21a2d3a96">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Titulo" forecolor="#FF0000" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="idMunicipio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT ofrenda.FECHA, ofrenda.BILLETES100, ofrenda.RESULTADO100, ofrenda.BILLETES50, ofrenda.RESULTADO50, ofrenda.BILLETES20, ofrenda.RESULTADO20, ofrenda.BILLETES10, ofrenda.RESULTADO10, ofrenda.BILLETES5, ofrenda.RESULTADO5, ofrenda.BILLETES2, ofrenda.RESULTADO2, ofrenda.BILLETES1, ofrenda.RESULTADO1, ofrenda.SUBTOTAL, ofrenda.CHEQUEINTERNO, ofrenda.CHEQUEEXTERNO, ofrenda.GIROS, ofrenda.TOTALPAPEL, ofrenda.CANTIDAD1, ofrenda.CANTIDAD2, ofrenda.TOTAL, municipio.DESCRIPCION
+FROM ofrenda 
+INNER JOIN  iglesia ON ofrenda.IDIGLESIA = iglesia.IDIGLESIA
+INNER JOIN  municipio ON iglesia.IDMUNICIPIO = municipio.IDMUNICIPIO
+WHERE municipio.IDMUNICIPIO = ($P{idMunicipio})
+AND ofrenda.FECHA BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
+	</queryString>
+	<field name="FECHA" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BILLETES100" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RESULTADO100" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BILLETES50" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RESULTADO50" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BILLETES20" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RESULTADO20" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BILLETES10" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RESULTADO10" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BILLETES5" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RESULTADO5" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BILLETES2" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RESULTADO2" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BILLETES1" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="RESULTADO1" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SUBTOTAL" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CHEQUEINTERNO" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CHEQUEEXTERNO" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GIROS" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TOTALPAPEL" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CANTIDAD1" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CANTIDAD2" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TOTAL" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DESCRIPCION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="93" splitType="Stretch">
+			<staticText>
+				<reportElement x="103" y="52" width="228" height="20" uuid="8e876b17-723c-45d1-94e9-fc8793801a6b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte Generado para las fechas:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="71" width="100" height="20" uuid="d74d2749-447a-431e-9cec-e0612aeb871c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Final:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="1" y="1" width="71" height="79" uuid="366b0c1b-af67-42cd-9f9a-05a95af2486c"/>
+				<imageExpression><![CDATA["C:\\Users\\Rene Alas\\Documents\\NetBeansProjects\\TRS\\web\\resources\\images\\logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="72" y="1" width="366" height="29" uuid="c2a9106a-f5c3-4abb-81da-34802e1cfac6"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Ofrenda por Municipio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="103" y="71" width="100" height="20" uuid="bb775cfb-8b13-48b2-8ee4-3e4f4713f7ce"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Inicial:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false">
+				<reportElement x="437" y="32" width="117" height="20" uuid="16c7d0d5-1a03-41ed-9c8a-32e9d8a75328"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="32" width="148" height="20" uuid="e53b6d7d-3fcd-4447-82ec-abb7981a127b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Emision de Reporte:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Titulo" x="437" y="0" width="118" height="30" uuid="a9af2279-2ec3-41b7-b67d-330324e33e84"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="2.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPCION}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="203" y="71" width="100" height="20" uuid="61e41fc6-fe1a-4870-ae9a-4e0d42fc2397"/>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="408" y="71" width="100" height="20" uuid="a2a672b0-41af-4ef8-bce0-db728d088dc0"/>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="361" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="93" width="176" height="20" uuid="d1d607a1-d019-41b9-98c1-a1897e2c52fe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{BILLETES20}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="73" width="192" height="20" uuid="045a23f1-3a69-41a7-b0e2-b54394de3ade"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{RESULTADO50}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="291" y="291" width="264" height="20" uuid="7df56641-dab6-4c56-9591-e62b52492fb1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CANTIDAD1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="177" y="192" width="186" height="20" uuid="0a271d57-1992-4bf5-99ec-b47595b57d7d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total en Billetes:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="291" width="290" height="20" uuid="ced6bece-f721-425d-ae85-3273cf56a224"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Remesa de Billetes y Cheques]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="271" width="192" height="20" uuid="11f5ce60-0420-41d6-8181-e66442823508"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALPAPEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="113" width="176" height="20" uuid="551e9288-ed6a-41b4-9ef2-ae5254d4ed23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{BILLETES10}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="177" y="251" width="186" height="20" uuid="2a11ce73-93f7-41a6-9159-bd33abdccba5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Giros]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="193" width="192" height="20" uuid="56b44e08-9daa-45be-80da-fd940c452688"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUBTOTAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="53" width="192" height="20" uuid="1ce6541f-dac7-4dc8-831c-203c56b521aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{RESULTADO100}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="177" y="73" width="186" height="20" uuid="654aaf3b-cff5-41c9-b87d-64e1000751bc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ Billetes de $50, Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="133" width="176" height="20" uuid="cbf1fa40-9c31-43b9-b86f-71813a704c2b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{BILLETES5}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="177" y="231" width="186" height="20" uuid="d21b011a-3dcf-47be-a644-4451e066c5a3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cheques Externos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="173" width="186" height="20" uuid="43d47691-9f1b-4162-810c-f6853de903fe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ Billetes de $1, Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="93" width="186" height="20" uuid="39e77b01-cba0-4a97-b9f9-8945d9beb374"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ Billetes de $20, Total]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="293" y="331" width="262" height="20" uuid="7351dd48-326b-48da-8db8-4dac7e555b18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="177" y="113" width="186" height="20" uuid="88cbfaac-8197-45f5-a12b-6007b4d9686e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ Billetes de $10, Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="153" width="176" height="20" uuid="2a1bd935-4ed7-42ee-92f4-1761402ae0b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{BILLETES2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="177" y="53" width="186" height="20" uuid="708c599b-d738-4272-8c84-922e9d76daee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ Billetes de $100, Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="53" width="176" height="20" uuid="ed25c4c8-8ebc-48f3-b943-bd7968084b11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{BILLETES100}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="212" width="192" height="20" uuid="00e9341a-77a1-43a9-a055-ccaf29259025"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CHEQUEINTERNO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="133" width="192" height="20" uuid="e7123739-642e-44a9-8e2b-1462fbcbcfbd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{RESULTADO5}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="177" y="133" width="186" height="20" uuid="449bdeaf-a965-431b-a490-a1f8985fa545"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ Billetes de $5, Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="32" width="174" height="21" uuid="63cfcbc6-5734-45bc-b9d1-4b0136c54881"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad de Billetes]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="356" width="552" height="1" uuid="ff56fbf4-befc-45c7-8b99-bd81c6ad34b0"/>
+			</line>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="363" y="1" width="192" height="31" uuid="33845dd5-f733-4ed7-a83e-46726c9e33b8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{FECHA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="153" width="192" height="20" uuid="92e5f6f2-d810-417c-8392-84d194afcc5c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{RESULTADO2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="93" width="192" height="20" uuid="179b410d-0847-4101-84a2-2317ae265b10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{RESULTADO20}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="293" y="311" width="262" height="20" uuid="88e3b807-8124-40cb-920e-3676f9eecefd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CANTIDAD2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="73" width="176" height="20" uuid="82e114c8-53f3-4f32-bea5-c5ba2f16b18a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{BILLETES50}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="331" width="290" height="20" uuid="1f22f910-1ca1-48fe-a983-d9f969324c8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="113" width="192" height="20" uuid="1bb701d8-c423-4bda-9c06-d25e4207aa49"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{RESULTADO10}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="1" width="362" height="31" uuid="e5c77726-5213-4639-a3a4-bb6acd166fca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Reporte para Fecha: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="211" width="186" height="20" uuid="d1b477ca-149a-4d61-a526-7d2721e661c1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cheques Internos:]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="231" width="192" height="20" uuid="b279a94d-8557-42ce-bbb6-6a6f53b1564e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CHEQUEEXTERNO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="363" y="32" width="192" height="21" uuid="b0d6d949-c596-49b5-b992-6b40d6be4ed8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Resultado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="271" width="186" height="20" uuid="5ef84c00-a946-4627-930c-09fc26a842a3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="251" width="192" height="20" uuid="f8ec9a29-3fdb-42fb-8421-cc4c29c2202a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{GIROS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="177" y="153" width="186" height="20" uuid="aa795217-eac0-44f7-bd4e-dc61d4ae8f9f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ Billetes de $2, Total]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="363" y="173" width="192" height="20" uuid="ac1eb766-75b7-4453-a0f7-396fbd4e4a8e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{RESULTADO1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="311" width="290" height="20" uuid="04bc6e11-e92d-46b4-a9ee-9eee9a5423db"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Remesa de Monedas]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="173" width="176" height="20" uuid="0e691257-28ae-47e3-a08c-380847d6a75c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{BILLETES1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="18" splitType="Stretch"/>
+	</summary>
+</jasperReport>

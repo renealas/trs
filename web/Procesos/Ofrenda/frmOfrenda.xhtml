@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form>
+                <p:panel>
+                    <f:facet name="header">
+                        <p:outputLabel value="Reporte de Ofrenda"/>
+                    </f:facet>
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="fecha" value="Ingrese la fecha de la Ofrenda: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar id="fecha" value="#{ofrendaControl.ofrendaSelected.fecha}" placeholder="Fecha de Culto" pattern="MM-dd-yyyy"/>                               
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="iglesiaUser" value="Iglesia: " style="font-weight: bold"/>
+                            </p:column>   
+                            <p:column>                                
+                                <p:outputLabel id="iglesiaUser" value="#{usuario.idiglesia.comp} #{usuario.idiglesia.descripcion}" style="text-decoration: #3a87ad; text-align: center; font-weight: bold" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 3 || loginControl.usuarioValidado.idnivel.idnivel == 4}"/> 
+                                <p:selectOneMenu id="iglesia" converter="entityConverter" var="iglesia" value="#{ofrendaControl.ofrendaSelected.idiglesia}" filter="true" filterMatchMode="contains" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}">
+                                    <f:selectItem itemLabel="---Seleccione la Iglesia ---" itemValue="#{null}"/>
+                                    <f:selectItems value="#{ofrendaControl.lstIglesia}" var="iglesia" itemLabel="#{iglesia.comp} #{iglesia.descripcion}" itemValue="#{iglesia}"/>
+                                    <p:column>
+                                        <h:outputText value="#{iglesia.comp} #{iglesia.descripcion}"/>
+                                    </p:column>
+                                    <p:ajax event="change" update="culto" listener="#{ofrendaControl.listarCultos()}" />
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="culto" value="Culto:" style="font-weight: bold"/>
+                            </p:column>
+                            <p:column> 
+                                <p:selectOneMenu id="culto" converter="entityConverter" var="culto" value="#{ofrendaControl.ofrendaSelected.idculto}" filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemLabel="---Seleccione el Culto ---" itemValue="#{null}"/>
+                                    <f:selectItems value="#{ofrendaControl.lstCulto}" var="culto" itemLabel="#{culto.descripcion}" itemValue="#{culto}"/>
+                                    <p:column>
+                                        <h:outputText value="#{culto.descripcion}"/>
+                                    </p:column>
+                                </p:selectOneMenu> 
+                            </p:column> 
+                        </p:row>                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="usuario" value="Encargado de captura informacion: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel id="usuario" value="#{usuario.nombre} #{usuario.apellido}" style="text-decoration: #3a87ad; text-align: center; font-weight: bold"/>
+
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:inputText  id="billetes100" value="#{ofrendaControl.ofrendaSelected.billetes100}" placeholder="Cantidad de Billetes de $100">
+                                    <p:ajax event="blur" update="resultado100 subtotal totalpapel cantidad1 total"/>
+                                </p:inputText>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="billetes100" value=" Billetes de $100, total: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel id="resultado100" value="#{ofrendaControl.ofrendaSelected.billetes100 * 100}" style="font-weight: bold">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                    <f:view locale="en_US"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:inputText  id="billetes50" value="#{ofrendaControl.ofrendaSelected.billetes50}" placeholder="Cantidad de Billetes de $50">
+                                    <p:ajax event="blur" update="resultado50 subtotal totalpapel cantidad1 total"/>
+                                </p:inputText>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="billetes50" value=" Billetes de $50, total: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel id="resultado50" value="#{ofrendaControl.ofrendaSelected.billetes50 * 50}" style="font-weight: bold">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                    <f:view locale="en_US"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:inputText  id="billetes20" value="#{ofrendaControl.ofrendaSelected.billetes20}" placeholder="Cantidad de Billetes de $20">
+                                    <p:ajax event="blur" update="resultado20 subtotal totalpapel cantidad1 total"/>
+                                </p:inputText>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="billetes20" value=" Billetes de $20, total: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel id="resultado20" value="#{ofrendaControl.ofrendaSelected.billetes20 * 20}" style="font-weight: bold">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                    <f:view locale="en_US"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:inputText  id="billetes10" value="#{ofrendaControl.ofrendaSelected.billetes10}" placeholder="Cantidad de Billetes de $10">
+                                    <p:ajax event="blur" update="resultado10 subtotal totalpapel cantidad1 total"/>
+                                </p:inputText>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="billetes10" value=" Billetes de $10, total: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel id="resultado10" value="#{ofrendaControl.ofrendaSelected.billetes10 * 10}" style="font-weight: bold">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                    <f:view locale="en_US"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:inputText  id="billetes5" value="#{ofrendaControl.ofrendaSelected.billetes5}" placeholder="Cantidad de Billetes de $5">
+                                    <p:ajax event="blur" update="resultado5 subtotal totalpapel cantidad1 total"/>
+                                </p:inputText>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="billetes5" value=" Billetes de $5, total: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel id="resultado5" value="#{ofrendaControl.ofrendaSelected.billetes5 * 5}" style="font-weight: bold">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                    <f:view locale="en_US"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:inputText  id="billetes2" value="#{ofrendaControl.ofrendaSelected.billetes2}" placeholder="Cantidad de Billetes de $2">
+                                    <p:ajax event="blur" update="resultado2 subtotal totalpapel cantidad1 total"/>
+                                </p:inputText>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="billetes2" value=" Billetes de $2, total: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel id="resultado2" value="#{ofrendaControl.ofrendaSelected.billetes2 * 2}" style="font-weight: bold">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                    <f:view locale="en_US"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:inputText  id="billetes1" value="#{ofrendaControl.ofrendaSelected.billetes1}" placeholder="Cantidad de Billetes de $1">
+                                    <p:ajax event="blur" update="resultado1 subtotal totalpapel cantidad1 total"/>
+                                </p:inputText>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel for="billetes1" value=" Billetes de $1, total: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel id="resultado1" value="#{ofrendaControl.ofrendaSelected.billetes1 * 1}" style="font-weight: bold">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                    <f:view locale="en_US"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="subtotal" value="Total en Billetes: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel id="subtotal" value="#{ofrendaControl.ofrendaSelected.billetes1 * 1 + ofrendaControl.ofrendaSelected.billetes2 * 2 + ofrendaControl.ofrendaSelected.billetes5 * 5 + ofrendaControl.ofrendaSelected.billetes10 * 10 + ofrendaControl.ofrendaSelected.billetes20 * 20 + ofrendaControl.ofrendaSelected.billetes50 * 50 + ofrendaControl.ofrendaSelected.billetes100 * 100}" style="font-weight: bold">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                    <f:view locale="en_US"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>    
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="chequeinterno" value="Cheque Interno: " style="font-weight: bold"/>
+                            </p:column> 
+                            <p:column>
+                                <p:inputText  id="chequeinterno" value="#{ofrendaControl.ofrendaSelected.chequeinterno}" placeholder="Cantidad en Cheques Internos">
+                                    <p:ajax event="blur" update="totalpapel cantidad1 total"/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="chequeexterno" value="Cheque Externo: " style="font-weight: bold"/>
+                            </p:column> 
+                            <p:column>
+                                <p:inputText  id="chequeexterno" value="#{ofrendaControl.ofrendaSelected.chequeexterno}" placeholder="Cantidad en Cheques Externos">
+                                    <p:ajax event="blur" update="totalpapel cantidad1 total"/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="giros" value="Giros: " style="font-weight: bold"/>
+                            </p:column> 
+                            <p:column>
+                                <p:inputText  id="giros" value="#{ofrendaControl.ofrendaSelected.giros}" placeholder="Cantidad en Giros">
+                                    <p:ajax event="blur" update="totalpapel cantidad1 total"/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="totalpapel" value="Subtotal: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel id="totalpapel" value="#{ofrendaControl.ofrendaSelected.billetes1 * 1 + ofrendaControl.ofrendaSelected.billetes2 * 2 + ofrendaControl.ofrendaSelected.billetes5 * 5 + ofrendaControl.ofrendaSelected.billetes10 * 10 + ofrendaControl.ofrendaSelected.billetes20 * 20 + ofrendaControl.ofrendaSelected.billetes50 * 50 + ofrendaControl.ofrendaSelected.billetes100 * 100 + ofrendaControl.ofrendaSelected.chequeinterno + ofrendaControl.ofrendaSelected.chequeexterno + ofrendaControl.ofrendaSelected.giros}" style="font-weight: bold">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                    <f:view locale="en_US"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="cantidad1" value="Remesa de Billetes y Cheques" style="font-weight: bold"/>
+                            </p:column> 
+                            <p:column>
+                                <p:outputLabel  id="cantidad1" value="#{ofrendaControl.ofrendaSelected.billetes1 * 1 + ofrendaControl.ofrendaSelected.billetes2 * 2 + ofrendaControl.ofrendaSelected.billetes5 * 5 + ofrendaControl.ofrendaSelected.billetes10 * 10 + ofrendaControl.ofrendaSelected.billetes20 * 20 + ofrendaControl.ofrendaSelected.billetes50 * 50 + ofrendaControl.ofrendaSelected.billetes100 * 100 + ofrendaControl.ofrendaSelected.chequeinterno + ofrendaControl.ofrendaSelected.chequeexterno + ofrendaControl.ofrendaSelected.giros}" style="font-weight: bold">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                    <f:view locale="en_US"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="cantidad2" value="Remesa en Moneda: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText  id="cantidad2" value="#{ofrendaControl.ofrendaSelected.cantidad2}" placeholder="Introdusca la cantidad a Remesar">
+                                    <p:ajax event="blur" update="total"/>
+                                </p:inputText>
+                            </p:column>
+                        </p:row> 
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="total" value="Total de Ambas Remesas: " style="font-weight: bold"/>
+                            </p:column> 
+                            <p:column>
+                                <p:outputLabel  id="total" value="#{ofrendaControl.ofrendaSelected.billetes1 * 1 + ofrendaControl.ofrendaSelected.billetes2 * 2 + ofrendaControl.ofrendaSelected.billetes5 * 5 + ofrendaControl.ofrendaSelected.billetes10 * 10 + ofrendaControl.ofrendaSelected.billetes20 * 20 + ofrendaControl.ofrendaSelected.billetes50 * 50 + ofrendaControl.ofrendaSelected.billetes100 * 100 + ofrendaControl.ofrendaSelected.chequeinterno + ofrendaControl.ofrendaSelected.chequeexterno + ofrendaControl.ofrendaSelected.giros + ofrendaControl.ofrendaSelected.cantidad2}" style="font-weight: bold">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                    <f:view locale="en_US"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:commandButton value="#{ofrendaControl.accion}" action="#{ofrendaControl.doAccion}" icon="ui-icon-check"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="CANCELAR" process="@this" action="lstOfrenda.xhtml?faces-redirect=true" icon="ui-icon-circle-close"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

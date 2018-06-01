@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/componentsmod.css"/>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
+        <title>TRS - Tabernaculo Reporting Service</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <h:form>
+                <h:panelGrid border="0" columns="2">
+                    <p:graphicImage library="images" name="logo.png" height="100px" width="100px"/>
+                    <center><h2><font color="white">Tabernaculo Reporting Services</font></h2></center> 
+                </h:panelGrid>
+                <p:menubar model="#{menuControl.model}" rendered="#{usuario!= null}">
+                    <!--<p:menuitem value="Inicio" url="/faces/Catalogos/inicio.xhtml"/>
+          <p:submenu label="Catalagos">
+              <p:menuitem value="Zonas" url="/faces/Catalogos/Zona/lstZona.xhtml"/>
+              <p:menuitem value="Paises" url="/faces/Catalogos/Pais/lstPais.xhtml"/>
+              <p:menuitem value="Departamentos" url="/faces/Catalogos/Departamento/lstDepartamento.xhtml"/>
+              <p:menuitem value="Municipios" url="/faces/Catalogos/Municipio/lstMunicipio.xhtml"/>
+              <p:menuitem value="Niveles" url="/faces/Catalogos/Nivel/lstNivel.xhtml"/>
+              <p:menuitem value="Iglesias" url="/faces/Catalogos/Iglesia/lstIglesia.xhtml"/>
+              <p:menuitem value="Usuarios" url="/faces/Catalogos/Usuario/lstUsuario.xhtml"/>
+          </p:submenu>
+          <p:submenu label="Procesos">
+              <p:menuitem value="Asistencia" url="/faces/Procesos/Asistencia/lstAsistencia.xhtml"/>
+              <p:menuitem value="Bautismos" url="/faces/Procesos/Bautismo/lstBautismo.xhtml"/>
+              <p:menuitem value="Bodas" url="/faces/Procesos/Boda/lstBoda.xhtml"/>
+              <p:menuitem value="Conversiones" url="/faces/Procesos/Conversion/lstConversion.xhtml"/>
+              <p:menuitem value="Ofrendas" url="/faces/Procesos/Ofrenda/lstOfrenda.xhtml"/>
+              <p:menuitem value="Presentacion de Niños" url="/faces/Procesos/Presentacion/lstPresentacion.xhtml"/>
+          </p:submenu>
+          <p:submenu label="Reportes">
+              <p:menuitem value="Contactos por Zona" url="#"/>
+          </p:submenu>-->
+                    <f:facet name="options">
+                        <p:outputLabel style="margin-right:10px; text-decoration: #fff; font-weight: bold;" value="#{usuario.idnivel.descripcion.concat(' ').concat(usuario.nombre).concat(usuario.apellido)}"/>
+                        <p:commandLink id="cerrar" actionListener="#{loginControl.cerrarSesion()}" style="float: right; margin-left: 5px;">
+                            <p:graphicImage name="cerrar.png" library="images" style="width: 20px; height: 20px"/>
+                        </p:commandLink>
+                        <p:tooltip id="toolTipFade1" for="cerrar" value="Cerrar Session" position="bottom"/>
+                        <p:commandLink id="password" action="/faces/Catalogos/Usuario/rstUsuario.xhtml" style="float: right;">
+                            <p:graphicImage name="password.png" library="images" style="width: 20px; height: 20px"/>
+                        </p:commandLink>  
+                         <p:tooltip id="toolTipFade2" for="password" value="Cambiar Password" position="bottom"/>
+                         <p:commandLink id="profile" action="/faces/Catalogos/Usuario/prfUsuarioLog.xhtml" style="float: right;">
+                            <p:graphicImage name="pastorprof.png" library="images" style="width: 20px; height: 20px"/>
+                        </p:commandLink>  
+                         <p:tooltip id="toolTipFade3" for="profile" value="Modificar Informacion Personal" position="bottom"/>
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            <ui:insert name="top"></ui:insert>
+        </div>
+
+        <div id="content" class="center_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+        <div id="bottom">
+            <center><h4>Derechos Reservados <b> Rene Alas <p:outputLabel value="#{loginControl.anio}"/>®</b></h4></center>
+            <ui:insert name="bottom"></ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

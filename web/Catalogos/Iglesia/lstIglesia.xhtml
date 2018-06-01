@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+        <h:form id="frmIglesia">
+            <p:growl autoUpdate="true"/>
+            <p:dataTable var="iglesia" paginator="true" rows="10" paginatorPosition="bottom" rowHover="true" rowsPerPageTemplate="10,20,30"  widgetVar="wtblIglesia" value="#{iglesiaControl.lstIglesia}" id="tblIglesia" filteredValue="#{iglesiaControl.lstIglesiaFiltrada}" styleClass="fixed-size" reflow="true">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputLabel value="Búsqueda: "/>
+                        <p:inputText id="globalFilter" 
+                                     onkeyup="PF('wtblIglesia').filter()" 
+                                     style="text-input" 
+                                     placeholder="Ingrese la búsqueda"/>
+                       <br/>
+                        <p:commandButton value="NUEVA IGLESIA" action="frmIglesia.xhtml?faces-redirect=true" actionListener="#{iglesiaControl.limpiarObjeto()}" icon="ui-icon-circle-plus">
+                        <f:setPropertyActionListener target="#{iglesiaControl.accion}" value="AGREGAR"/>
+                        </p:commandButton>  
+                    </p:outputPanel>
+                </f:facet>
+                <p:column headerText="MUNICIPIO(CIUDAD)" filterBy="#{iglesia.idmunicipio.descripcion}" sortBy="#{iglesia.idmunicipio.descripcion}" resizable="true" styleClass="myTable">        
+                    <p:outputLabel value="#{iglesia.idmunicipio.descripcion}"/>
+                </p:column>
+                <p:column headerText="CODIGO DE IGLESIA" filterBy="#{iglesia.codigo}" sortBy="#{iglesia.codigo}" resizable="true" styleClass="myTable">
+                    <p:outputLabel value="#{iglesia.codigo}"/>
+                </p:column>
+                <p:column headerText="TIPO DE IGLESIA" resizable="true" styleClass="myTable">
+                    <p:outputLabel value="#{iglesia.comp}"/>
+                </p:column>
+                <p:column headerText="IGLESIA" filterBy="#{iglesia.descripcion}" sortBy="#{iglesia.descripcion}" resizable="true" styleClass="myTable">
+                    <p:outputLabel value="#{iglesia.descripcion}"/>
+                </p:column>
+                <p:column headerText="DIRECCION" resizable="true" styleClass="myTable">
+                    <h:outputText value="#{not empty iglesia.direccion ? iglesia.direccion : 'No Disponible'}"/>
+                </p:column>
+                <p:column headerText="PAGINA WEB" resizable="true" styleClass="myTable">
+                    <p:outputLabel value="#{not empty iglesia.paginaweb ? iglesia.paginaweb : 'No Disponible'}"/>
+                </p:column>
+                <p:column headerText="FUNDACION" resizable="true" styleClass="myTable">
+                    <h:outputText value="#{not empty iglesia.fundacion ? iglesia.fundacion : 'No Disponible'}">
+                        <f:convertDateTime pattern="MMMMMMMM dd, yyyy" locale="es" />
+                    </h:outputText>
+                </p:column>
+                <p:column resizable="true" styleClass="myTable">         
+                    <p:commandButton value="MODIFICAR IGLESIA" action="frmIglesia.xhtml?faces-redirect=true" icon="ui-icon-pencil" style="buttonwrap">
+                        <f:setPropertyActionListener target="#{iglesiaControl.accion}" value="MODIFICAR"/>
+                        <f:setPropertyActionListener target="#{iglesiaControl.iglesiaSelected}" value="#{iglesia}"/>
+                    </p:commandButton>
+                </p:column>
+                <p:column resizable="true" styleClass="myTable">
+                    <p:commandButton value="BORRAR IGLESIA" oncomplete="PF('wdlgBorrar').show()" update=":frmIglesia" icon="ui-icon-trash">
+                        <f:setPropertyActionListener target="#{iglesiaControl.iglesiaSelected}" value="#{iglesia}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <p:dialog widgetVar="wdlgBorrar" id="dlgBorrar" modal="true">
+            <h:form>    
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:outputLabel value="Desea borrar la Iglesia seleccionada?"/>.
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="SI" oncomplete="PF('wdlgBorrar').hide()" action="#{iglesiaControl.borrarIglesia()}" update=":frmIglesia" ajax="true"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="NO" oncomplete="PF('wdlgBorrar').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+           
+        </p:dialog> 
+    </div>         
+    </ui:define>
+
+</ui:composition>

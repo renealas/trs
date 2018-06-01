@@ -1,0 +1,29 @@
+<p:menubar rendered="#{usuario!= null}">
+                    <p:menuitem value="Inicio" url="/faces/Catalogos/inicio.xhtml"/>
+                    <p:submenu label="Catalagos">
+                        <p:menuitem value="Zonas" url="/faces/Catalogos/Zona/lstZona.xhtml"/>
+                        <p:menuitem value="Paises" url="/faces/Catalogos/Pais/lstPais.xhtml"/>
+                        <p:menuitem value="Departamentos" url="/faces/Catalogos/Departamento/lstDepartamento.xhtml"/>
+                        <p:menuitem value="Municipios" url="/faces/Catalogos/Municipio/lstMunicipio.xhtml"/>
+                        <p:menuitem value="Niveles" url="/faces/Catalogos/Nivel/lstNivel.xhtml"/>
+                        <p:menuitem value="Iglesias" url="/faces/Catalogos/Iglesia/lstIglesia.xhtml"/>
+                        <p:menuitem value="Usuarios" url="/faces/Catalogos/Usuario/lstUsuario.xhtml"/>
+                    </p:submenu>
+                    <p:submenu label="Procesos">
+                        <p:menuitem value="Asistencia" url="/faces/Procesos/Asistencia/lstAsistencia.xhtml"/>
+                        <p:menuitem value="Bautismos" url="/faces/Procesos/Bautismo/lstBautismo.xhtml"/>
+                        <p:menuitem value="Bodas" url="/faces/Procesos/Boda/lstBoda.xhtml"/>
+                        <p:menuitem value="Conversiones" url="/faces/Procesos/Conversion/lstConversion.xhtml"/>
+                        <p:menuitem value="Ofrendas" url="/faces/Procesos/Ofrenda/lstOfrenda.xhtml"/>
+                        <p:menuitem value="Presentacion de Niños" url="/faces/Procesos/Presentacion/lstPresentacion.xhtml"/>
+                    </p:submenu>
+                    <p:submenu label="Reportes">
+                        <p:menuitem value="Contactos por Zona" url="#"/>
+                    </p:submenu>
+                    <f:facet name="options">
+                        <p:outputLabel style="margin-right:10px; text-decoration: #fff; font-weight: bold;" value="#{usuario.idnivel.descripcion.concat(' ').concat(usuario.nombre).concat(usuario.apellido)}"/>
+                        <p:commandLink actionListener="#{loginControl.cerrarSesion()}" style="float: right;">
+                            <p:graphicImage name="cerrar.png" library="images" style="width: 20px; height: 20px"/>
+                        </p:commandLink>
+                    </f:facet>
+                </p:menubar>

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form id="frmAcciones" enctype="multipart/form-data">
+                <p:messages id="messages" showDetail="true" autoUpdate="true" />
+                <p:panelGrid columns="2">
+                    <h:outputLabel for="pwd1" value="Nuevo Password: *" />
+                    <p:password id="pwd1" value="#{usuarioControl.usuarioSelected.password}" match="pwd2" label="Password 1" required="true" />
+
+                    <h:outputLabel for="pwd2" value="Validar Nuevo Password: *" />
+                    <p:password id="pwd2" value="#{usuarioControl.usuarioSelected.password}" label="Password 2" required="true" />
+
+                  <p:commandButton value="CAMBIAR CONTRASEÑA" action="#{usuarioControl.resetPasswordByUser()}" icon="ui-icon-check"/>
+                    <p:commandButton value="CANCELAR" process="@this" action="/faces/Catalogos/inicio.xhtml" icon="ui-icon-circle-close"/>
+                </p:panelGrid>                
+            </h:form>
+        </div>  
+                    </ui:define>
+
+                    </ui:composition>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+         <h:form id="frmNivel">
+            <p:growl autoUpdate="true"/>
+            <p:dataTable var="nivel" paginator="true" rows="5" paginatorPosition="bottom" rowHover="true" rowsPerPageTemplate="2,4,6"  widgetVar="wtblNivel" value="#{nivelControl.lstNivel}" id="tblNivel" filteredValue="#{nivelControl.lstNivelFiltrada}" styleClass="fixed-size" reflow="true">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputLabel value="Búsqueda: "/>
+                        <p:inputText id="globalFilter" 
+                                     onkeyup="PF('wtblNivel').filter()" 
+                                     style="text-input" 
+                                     placeholder="Ingrese la búsqueda"/>
+                        <p:commandButton value="NUEVO NIVEL" action="frmNivel.xhtml?faces-redirect=true" actionListener="#{nivelControl.limpiarObjeto()}" icon="ui-icon-circle-plus">
+                            <f:setPropertyActionListener target="#{nivelControl.accion}" value="AGREGAR"/>
+                        </p:commandButton>    
+                    </p:outputPanel>
+                </f:facet>
+                <p:column headerText="NIVEL" filterBy="#{nivel.descripcion}" sortBy="#{nivel.descripcion}">
+                    <p:outputLabel value="#{nivel.descripcion}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="MODIFICAR NIVEL" action="frmNivel.xhtml?faces-redirect=true" icon="ui-icon-pencil" style="buttonwrap">
+                        <f:setPropertyActionListener target="#{nivelControl.accion}" value="MODIFICAR"/>
+                        <f:setPropertyActionListener target="#{nivelControl.nivelSelected}" value="#{nivel}"/>
+                    </p:commandButton>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="BORRAR NIVEL" oncomplete="PF('wdlgBorrar').show()" update=":frmNivel" icon="ui-icon-trash">
+                        <f:setPropertyActionListener target="#{nivelControl.nivelSelected}" value="#{nivel}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>    
+
+        <p:dialog widgetVar="wdlgBorrar" id="dlgBorrar" modal="true">
+            <h:form>    
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:outputLabel value="Desea borrar el Nivel seleccionado?"/>.
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="SI" oncomplete="PF('wdlgBorrar').hide()" actionListener="#{nivelControl.borrarNivel()}" update=":frmNivel" ajax="true"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="NO" oncomplete="PF('wdlgBorrar').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog> 
+        </div>
+    </ui:define>
+
+</ui:composition>

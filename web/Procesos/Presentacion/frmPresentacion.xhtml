@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form>
+                <p:panel>
+                    <f:facet name="header">
+                        <p:outputLabel value="Presentacion de Niños"/>
+                    </f:facet>
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="fecha" value="Ingrese la fecha de la Presentacion " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar id="fecha" value="#{presentacionControl.presentacionSelected.fecha}" placeholder="Fecha de Culto" pattern="MM-dd-yyyy"/>                               
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="iglesiaUser" value="Iglesia: " style="font-weight: bold"/>
+                            </p:column>   
+                            <p:column>                                
+                                <p:outputLabel id="iglesiaUser" value="#{usuario.idiglesia.comp} #{usuario.idiglesia.descripcion}" style="text-decoration: #3a87ad; text-align: center; font-weight: bold" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 3 || loginControl.usuarioValidado.idnivel.idnivel == 4}"/> 
+                                <p:selectOneMenu id="iglesia" converter="entityConverter" var="iglesia" value="#{presentacionControl.presentacionSelected.idiglesia}" filter="true" filterMatchMode="contains" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}">
+                                    <f:selectItem itemLabel="---Seleccione la Iglesia ---" itemValue="#{null}"/>
+                                    <f:selectItems value="#{presentacionControl.lstIglesia}" var="iglesia" itemLabel="#{iglesia.comp} #{iglesia.descripcion}" itemValue="#{iglesia}"/>
+                                    <p:column>
+                                        <h:outputText value="#{iglesia.comp} #{iglesia.descripcion}"/>
+                                    </p:column>
+                                </p:selectOneMenu>
+                            </p:column>
+
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="usuario" value="Encargado de captura informacion: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel id="usuario" value="#{usuario.nombre} #{usuario.apellido}" style="text-decoration: #3a87ad; text-align: center; font-weight: bold"/>
+
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="presentacion" value="Niños Presentados: " style="font-weight: bold"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText  id="presentacion" value="#{presentacionControl.presentacionSelected.ninospresent}" placeholder="Bautismos" required="true"/>                                      
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:commandButton value="#{presentacionControl.accion}" action="#{presentacionControl.doAccion}" icon="ui-icon-check"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="CANCELAR" process="@this" action="lstPresentacion.xhtml?faces-redirect=true" icon="ui-icon-circle-close"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

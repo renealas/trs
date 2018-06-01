@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="ba63619c-52ac-4d4f-9c0e-dcca9fdcfa63">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idIglesia" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM (SELECT asistencia.fecha AS FECHA, asistencia.IDIGLESIA AS IDIGLESIA, iglesia.COMP AS COMP, iglesia.DESCRIPCION AS IGLESIA, departamentos.DESCRIPCION AS DEPARTAMENTO, municipio.DESCRIPCION AS MUNICIPIO, usuario.NOMBRE AS NOMBRE, usuario.APELLIDO AS APELLIDO, zona.DESCRIPCION AS ZONA, culto.DESCRIPCION AS CULTO, asistencia.ASISTENCIAADULTOS AS ASISTENCIAADULTOS, asistencia.ASISTENCIANINOS AS ASISTENCIANINOS, NULL AS BAUTISMOS, NULL AS BODAS, NULL AS NINOSPRESENT, conversiones.CONVERSIONES AS CONVERSIONES, ofrenda.TOTAL AS TOTAL
+FROM asistencia 
+INNER JOIN iglesia ON iglesia.IDIGLESIA = asistencia.IDIGLESIA
+INNER JOIN  municipio ON iglesia.IDMUNICIPIO = municipio.IDMUNICIPIO
+INNER JOIN  departamentos ON municipio.IDDEPARTAMENTO = departamentos.IDDEPARTAMENTO
+INNER JOIN  zona ON departamentos.IDZONA = zona.IDZONA
+INNER JOIN culto ON asistencia.IDCULTO = culto.IDCULTO
+INNER JOIN usuario ON asistencia.IDUSUARIO = usuario.IDUSUARIO
+LEFT JOIN ofrenda ON asistencia.IDIGLESIA = ofrenda.IDIGLESIA AND asistencia.IDCULTO = ofrenda.IDCULTO AND asistencia.FECHA = ofrenda.FECHA
+LEFT JOIN conversiones ON asistencia.IDIGLESIA = conversiones.IDIGLESIA AND asistencia.IDCULTO = conversiones.IDCULTO AND asistencia.FECHA = conversiones.FECHA
+UNION
+SELECT base.FECHA AS FECHA, base.IDIGLESIA AS IDIGLESIA, iglesia.COMP AS COMP, iglesia.DESCRIPCION AS IGLESIA, departamentos.DESCRIPCION AS DEPARTAMENTO, municipio.DESCRIPCION AS MUNICIPIO, NULL AS NOMBRE, NULL AS APELLIDO, zona.DESCRIPCION AS ZONA, NULL AS CULTO, NULL AS ASISTENCIAADULTOS, NULL AS ASISTENCIANINOS, bautismos.BAUTISMOS AS BAUTISMOS, bodas.BODAS AS BODAS, presentacion.NINOSPRESENT AS NINOSPRESENT, NULL AS CONVERSIONES, NULL AS TOTAL 
+FROM (SELECT fecha, IDIGLESIA FROM bodas UNION SELECT fecha, IDIGLESIA FROM bautismos UNION SELECT fecha, IDIGLESIA FROM presentacion) AS base
+INNER JOIN iglesia ON iglesia.IDIGLESIA = base.IDIGLESIA
+INNER JOIN  municipio ON iglesia.IDMUNICIPIO = municipio.IDMUNICIPIO
+INNER JOIN  departamentos ON municipio.IDDEPARTAMENTO = departamentos.IDDEPARTAMENTO
+INNER JOIN  zona ON departamentos.IDZONA = zona.IDZONA
+LEFT JOIN bautismos ON base.FECHA = bautismos.FECHA AND base.IDIGLESIA = bautismos.IDIGLESIA
+LEFT JOIN bodas ON base.FECHA = bodas.FECHA AND base.IDIGLESIA = bodas.IDIGLESIA
+LEFT JOIN presentacion ON base.FECHA = presentacion.FECHA AND base.IDIGLESIA = presentacion.IDIGLESIA) AS tablita 
+WHERE tablita.FECHA BETWEEN $P{fechaInicio} AND $P{fechaFin} AND tablita.IDIGLESIA = $P{idIglesia}
+ORDER BY tablita.FECHA ASC]]>
+	</queryString>
+	<field name="FECHA" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IDIGLESIA" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="COMP" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IGLESIA" class="java.lang.String"/>
+	<field name="DEPARTAMENTO" class="java.lang.String"/>
+	<field name="MUNICIPIO" class="java.lang.String"/>
+	<field name="NOMBRE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="APELLIDO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ZONA" class="java.lang.String"/>
+	<field name="CULTO" class="java.lang.String"/>
+	<field name="ASISTENCIAADULTOS" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ASISTENCIANINOS" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BAUTISMOS" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="BODAS" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NINOSPRESENT" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CONVERSIONES" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TOTAL" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="ASISTENCIAADULTOS_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{ASISTENCIAADULTOS}]]></variableExpression>
+	</variable>
+	<variable name="ASISTENCIANINOS_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{ASISTENCIANINOS}]]></variableExpression>
+	</variable>
+	<variable name="CONVERSIONES_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{CONVERSIONES}]]></variableExpression>
+	</variable>
+	<variable name="BODAS_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{BODAS}]]></variableExpression>
+	</variable>
+	<variable name="NINOSPRESENT_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{NINOSPRESENT}]]></variableExpression>
+	</variable>
+	<variable name="BAUTISMOS_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{BAUTISMOS}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_1" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTAL}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="140" splitType="Stretch">
+			<image>
+				<reportElement x="3" y="0" width="82" height="79" uuid="6a41234a-3e9c-461c-98b2-c439667c1685"/>
+				<imageExpression><![CDATA["C:\\Users\\Rene Alas\\Documents\\NetBeansProjects\\TRS\\web\\resources\\images\\logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="147" y="0" width="568" height="20" uuid="8eb50a63-1007-4e65-9142-70be472151aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[TABERNACULO BIBLICO BAUTISTA "AMIGOS DE ISRAEL" CENTRAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="147" y="19" width="568" height="20" uuid="0fdadf38-de50-4cad-b7e4-55978688a1fb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[REPORTE SEMANAL DE IGLESIAS Y MISIONES FILIALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="85" y="38" width="100" height="20" uuid="848f6a40-8fd1-421b-af2d-4d17ebcb690f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEMANA DEL: ]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="183" y="38" width="100" height="20" uuid="d5de1db2-425f-4794-8ad2-c21d3364c48f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="282" y="38" width="100" height="20" uuid="6057e0a3-e2e3-43cd-a512-8fc3bd8e4229"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AL:]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="381" y="38" width="100" height="20" uuid="7616966a-e283-41a1-8fe5-215ae789dec6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="84" y="57" width="199" height="20" uuid="92d6ea60-6fa8-4ec5-91c0-374168a024dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE DE LA OBRA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="283" y="57" width="198" height="20" uuid="73b04a1e-ae0d-4799-881a-f571b77c1d04"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{COMP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="453" y="57" width="235" height="20" uuid="f97631dc-3a0a-40eb-bcab-e356c4632cd6"/>
+				<textElement verticalAlignment="Middle">
+					<font isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IGLESIA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="78" width="144" height="20" uuid="ff74e465-88e6-4c5d-b486-4b5ce60696d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEPARTAMENTO O CIUDAD:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="146" y="78" width="235" height="20" uuid="7d2f30af-25d9-49e5-954e-74cbe85c861d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DEPARTAMENTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="381" y="78" width="144" height="20" uuid="1f29d51c-2cb5-4552-896f-6eed6a6fb2cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MUNICIPIO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="522" y="78" width="193" height="20" uuid="024f574e-0973-4ddf-94a8-97509033b639"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{MUNICIPIO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="98" width="182" height="20" uuid="86c1c91a-b54a-41aa-a2a7-964a32b3dcc2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PASTOR O LIDER ENCARGADO: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="184" y="98" width="198" height="20" uuid="114d4253-70d6-45bc-b685-c70d625dbcec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="326" y="98" width="334" height="20" uuid="884c3fce-94b2-4ca7-bad3-c9c37498943c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{APELLIDO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="117" width="180" height="20" uuid="832eea32-a07d-4697-a85e-11b21302dc54"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ZONA A LA QUE PERTENECE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="184" y="117" width="198" height="20" uuid="07fcdb71-5c1d-40ad-a9d6-e8c6dba46c91"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ZONA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="87" y="1" width="100" height="29" uuid="04444f68-86d5-4939-a35c-453a7fca9a51"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[HORARIO DE CULTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="186" y="1" width="86" height="29" uuid="33cf6802-3128-4441-b20a-65b455a07e87"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ASISTENCIA DE ADULTOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="1" width="86" height="29" uuid="7c4a86ee-3629-47bd-92b1-0faf54186b5a"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ASISTENCIA DE NINOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="1" width="86" height="29" uuid="4a72c962-2a82-4299-ab9b-54684b3d4ebf"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROFESIONES DE FE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="526" y="2" width="87" height="28" uuid="db4054ec-1493-4c1f-a6cb-ba1d9dfcb3e3"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRESENTACION DE NINOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="613" y="1" width="86" height="29" uuid="17f127ec-ddee-4e5e-a172-7589dc1f6bc7"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BAUTISMOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="699" y="1" width="103" height="29" uuid="9671d938-c1a9-4788-b0c7-4ec2643353a1"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIEZMOS Y OFRENDAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="2" width="86" height="28" uuid="1f5206d4-8a58-49c2-b101-1e859369882a"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BODAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="1" width="88" height="29" uuid="122acbd1-f54c-4d46-a088-9f0727cf6815"/>
+				<box>
+					<bottomPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="87" y="1" width="100" height="20" uuid="6411ea02-40e1-46ac-b23b-6c53ab1cfc9d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CULTO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="false">
+				<reportElement x="186" y="0" width="86" height="20" uuid="9c5c9bff-0f23-4536-88c1-bb1a15865eb6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ASISTENCIAADULTOS}==null?0:$F{ASISTENCIAADULTOS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="false">
+				<reportElement x="271" y="1" width="86" height="20" uuid="e29d1440-b1be-4506-bcc6-3c3515c99c0d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ASISTENCIANINOS}==null?0:$F{ASISTENCIANINOS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="false">
+				<reportElement x="354" y="0" width="86" height="20" uuid="000e02a9-a216-4f0b-823b-c00ec51b12b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CONVERSIONES}==null?0:$F{CONVERSIONES}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="false">
+				<reportElement x="440" y="-1" width="86" height="20" uuid="1882cb69-3735-4264-8b39-56b3fe8fcde3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{BODAS}==null?0:$F{BODAS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="false">
+				<reportElement x="525" y="-2" width="87" height="20" uuid="3004ce2a-0462-496a-bf0e-091895c15235"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NINOSPRESENT}==null?0:$F{NINOSPRESENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="false">
+				<reportElement x="613" y="-2" width="86" height="20" uuid="336fa27b-2bff-4be5-b2db-248a8164250b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{BAUTISMOS}==null?0:$F{BAUTISMOS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="699" y="0" width="103" height="20" uuid="e949e31d-845d-4841-9320-20971d1e25f9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TOTAL}==null?0:$F{TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yy" isBlankWhenNull="true">
+				<reportElement x="5" y="2" width="81" height="20" uuid="fce6c9e2-39e5-48f7-80a7-a45d0f9d0fb6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{FECHA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="3" y="1" width="185" height="20" uuid="0c367a68-47b5-4be5-af43-a9dbc7bec693"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTALES:]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="186" y="1" width="86" height="20" uuid="a76e3bc2-7446-49cf-82e2-c32a6073aedf"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ASISTENCIAADULTOS_1}==null?0:$V{ASISTENCIAADULTOS_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="271" y="1" width="86" height="20" uuid="1e8922e2-50e5-49f3-8f5f-b574bbac0e1b"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ASISTENCIANINOS_1}==null?0:$V{ASISTENCIANINOS_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="356" y="1" width="86" height="20" uuid="cee1a6ae-440d-4e6e-8bc5-4508bad0afc9"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{CONVERSIONES_1}==null?0:$V{CONVERSIONES_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="441" y="1" width="86" height="20" uuid="1c0d90f8-f737-4fb6-91b9-14ee4e27e220"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{BODAS_1}==null?0:$V{BODAS_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="525" y="1" width="87" height="20" uuid="8bba365e-8b19-40a1-a033-8de7b213f0cc"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{NINOSPRESENT_1}==null?0:$V{NINOSPRESENT_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="612" y="1" width="86" height="20" uuid="c7aa12e7-ed3b-4a93-ae10-837db7e11e0b"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{BAUTISMOS_1}==null?0:$V{BAUTISMOS_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="697" y="1" width="105" height="20" uuid="480c4f90-e94e-46b8-ab05-fe96d5134ecd"/>
+				<box>
+					<topPen lineWidth="2.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_1}==null?0:$V{TOTAL_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

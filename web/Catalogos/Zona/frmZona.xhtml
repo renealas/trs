@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"               
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form id="frmAcciones">
+                <p:panelGrid columns="2">
+                    <p:outputLabel style="font-weight:bold" for="zona" value="Nombre de Zona"/>
+                    <p:inputText id="zona" value="#{zonaControl.zonaSelected.descripcion}" placeholder="Nombre de la Zona" required="true"/>                    
+                    <p:commandButton value="#{zonaControl.accion}" action="#{zonaControl.doAccion}" icon="ui-icon-check"/>
+                    <p:commandButton value="CANCELAR" process="@this" action="lstZona.xhtml?faces-redirect=true" icon="ui-icon-circle-close"/>
+                </p:panelGrid>                
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

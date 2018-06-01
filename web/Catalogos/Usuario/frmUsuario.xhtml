@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form id="frmAcciones" enctype="multipart/form-data">
+                <p:panelGrid columns="2">
+
+                    <p:outputLabel style="font-weight:bold" for="iglesia" value="Iglesia"/>
+                    <p:selectOneMenu id="iglesia" converter="entityConverter" var="iglesia" value="#{usuarioControl.usuarioSelected.idiglesia}" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="---Seleccione la Iglesia---" itemValue="#{null}"/>
+                        <f:selectItems value="#{usuarioControl.lstIglesia}" var="iglesia" itemLabel="#{iglesia.descripcion}" itemValue="#{iglesia}"/>
+                        <p:column>
+                            <h:outputText value="#{iglesia.descripcion}"/>
+                        </p:column>
+                    </p:selectOneMenu>
+                    <p:outputLabel id="iglesiatxt" value="#{loginControl.usuarioValidado.idiglesia.comp} #{loginControl.usuarioValidado.idiglesia.descripcion}" style="text-decoration: #3a87ad; text-align: center; font-weight: bold" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 3 || loginControl.usuarioValidado.idnivel.idnivel == 4}"/>
+                    <p:outputLabel style="font-weight:bold" for="nivel" value="Nivel"/>
+                    <p:selectOneMenu id="nivel" converter="entityConverter" var="nivel" value="#{usuarioControl.usuarioSelected.idnivel}" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}">
+                        <f:selectItem itemLabel="---Seleccione el Nivel---" itemValue="#{null}"/>
+                        <f:selectItems value="#{usuarioControl.lstNivel}" var="nivel" itemLabel="#{nivel.descripcion}" itemValue="#{nivel}"/>
+                        <p:column>
+                            <h:outputText value="#{nivel.descripcion}"/>
+                        </p:column>
+                    </p:selectOneMenu>
+                    <p:outputLabel id="niveltxt" value="#{loginControl.usuarioValidado.idnivel.descripcion}" style="text-decoration: #3a87ad; text-align: center; font-weight: bold" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 3 || loginControl.usuarioValidado.idnivel.idnivel == 4}"/>
+                    <p:outputLabel style="font-weight:bold" for="nombre" value="Nombres"/>
+                    <p:inputText id="nombre" value="#{usuarioControl.usuarioSelected.nombre}" placeholder="Nombre de Persona" required="true"/>
+
+                    <p:outputLabel style="font-weight:bold" for="apellido" value="Apellidos"/>
+                    <p:inputText id="apellido" value="#{usuarioControl.usuarioSelected.apellido}" placeholder="Apellido de Persona" required="true"/>
+
+                    <p:outputLabel style="font-weight:bold" for="dui" value="DUI"/>
+                    <p:inputMask id="dui" value="#{usuarioControl.usuarioSelected.dui}" mask="99999999-9" placeholder="Introdusca el DUI Persona" required="true"/>
+
+                    <p:outputLabel style="font-weight:bold" for="fechnac" value="Fecha de Nacimiento"/>
+                    <p:calendar id="fechnac" value="#{usuarioControl.usuarioSelected.fechanac}" placeholder="Fecha de Nacimiento" required="true" yearRange="c-100:c+100" navigator="true"/> 
+
+                    <p:outputLabel style="font-weight:bold" for="graduado" value="Graduado de Teologia"/>
+                    <p:selectOneMenu id="graduado" value="#{usuarioControl.usuarioSelected.graduadoteo}" required="true">
+                        <f:selectItem itemLabel="---Es Graduado de Teologia---" itemValue="#{null}"/>
+                        <f:selectItem itemValue="Si" itemLabel="Si" />
+                        <f:selectItem itemValue="No" itemLabel="No" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel style="font-weight:bold" for="escuela" value="Colegio de Teologia"/>
+                    <p:inputText id="escuela" value="#{usuarioControl.usuarioSelected.escuelateo}" placeholder="Colegio de Teologia que Asistio"/>
+
+                    <p:outputLabel style="font-weight:bold" for="estado" value="Estado Civil"/>
+                    <p:selectOneMenu id="estado" value="#{usuarioControl.usuarioSelected.estadocivil}" required="true">
+                        <f:selectItem itemLabel="---Estado Civil---" itemValue="#{null}"/>
+                        <f:selectItem itemValue="Soltero" itemLabel="Soltero" />
+                        <f:selectItem itemValue="Casado" itemLabel="Casado" />
+                        <f:selectItem itemValue="Union Libre" itemLabel="Union Libre" />
+                        <f:selectItem itemValue="Divorciado" itemLabel="Divorciado" />
+                        <f:selectItem itemValue="Viudo" itemLabel="Viudo" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel style="font-weight:bold" for="conyuge" value="Conyuge"/>
+                    <p:inputText id="conyuge" value="#{usuarioControl.usuarioSelected.conyuge}" placeholder="Nombre del Conyuge"/>
+
+                    <p:outputLabel style="font-weight:bold" for="telefono" value="Telefono Fijo"/>
+                    <p:inputText id="telefono" value="#{usuarioControl.usuarioSelected.telefono}" placeholder="Formato: +XXX XXXX-XXXX"/>
+
+                    <p:outputLabel style="font-weight:bold" for="celular" value="Telefono Mobil"/>
+                    <p:inputText id="celular" value="#{usuarioControl.usuarioSelected.celular}" placeholder="Formato: +XXX XXXX-XXXX"/>
+
+                    <p:outputLabel style="font-weight:bold" for="nit" value="NIT"/>
+                    <p:inputMask id="nit" value="#{usuarioControl.usuarioSelected.nit}" mask="9999-999999-999-9" placeholder="Escriba NIT Persona"/>
+
+                    <p:outputLabel style="font-weight:bold" for="nac" value="Nacionalidad"/>
+                    <p:inputText id="nac" value="#{usuarioControl.usuarioSelected.nacionalidad}" placeholder="Escriba Nacionalidad" required="true"/>
+
+                    <p:outputLabel style="font-weight:bold" for="academ" value="Estado Academico"/>
+                    <p:selectOneMenu id="academ" value="#{usuarioControl.usuarioSelected.estadoacad}" required="true">
+                        <f:selectItem itemLabel="---Estado Academico---" itemValue="#{null}"/>
+                        <f:selectItem itemValue="Bachiller" itemLabel="Bachiller" />
+                        <f:selectItem itemValue="Licenciatura" itemLabel="Licenciatura(Graduado Carrera)" />
+                        <f:selectItem itemValue="Maestria" itemLabel="Maestria" />
+                        <f:selectItem itemValue="Doctorado" itemLabel="Doctorado" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel style="font-weight:bold" for="prof" value="Profesion"/>
+                    <p:inputText id="prof" value="#{usuarioControl.usuarioSelected.profesion}" placeholder="Escriba su Profesion" required="true"/>
+
+                    <p:outputLabel style="font-weight:bold" for="correo" value="Correo Electronico"/>
+                    <p:inputText id="correo" value="#{usuarioControl.usuarioSelected.email}" placeholder="Escriba Correo Electronico"/>
+
+                    <p:outputLabel style="font-weight:bold" for="emple" value="Empleado"/>
+                    <p:selectOneMenu id="emple" value="#{usuarioControl.usuarioSelected.empleado}" required="true">
+                        <f:selectItem itemLabel="---Es Empleado---" itemValue="#{null}"/>
+                        <f:selectItem itemValue="Si" itemLabel="Si" />
+                        <f:selectItem itemValue="No" itemLabel="No" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel style="font-weight:bold" for="lugemp" value="Lugar de Empleo"/>
+                    <p:inputText id="lugemp" value="#{usuarioControl.usuarioSelected.lugarempleo}" placeholder="Escriba el Nombre del Lugar donde labora"/>
+
+                    <p:outputLabel style="font-weight:bold" value="Foto" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}"/>
+
+                    <p:fileUpload fileUploadListener="#{usuarioControl.upload}" allowTypes="/(\.|\/)(gif|jpe?g|png|img)$/" sizeLimit="4294967295" label="Escoger" cancelLabel="Cancelar" uploadLabel="Subir" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}"/>                       
+
+
+                    <p:commandButton value="#{usuarioControl.accion}" action="#{usuarioControl.doAccion}" icon="ui-icon-check"/>
+                    <p:commandButton value="CANCELAR" process="@this" action="lstUsuario.xhtml?faces-redirect=true" icon="ui-icon-circle-close" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 1 || loginControl.usuarioValidado.idnivel.idnivel == 2}"/>
+                    <p:commandButton value="CANCELAR" process="@this" action="/faces/Catalogos/inicio.xhtml" icon="ui-icon-circle-close" rendered="#{loginControl.usuarioValidado.idnivel.idnivel == 3 || loginControl.usuarioValidado.idnivel.idnivel == 4}"/>
+                </p:panelGrid>                
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

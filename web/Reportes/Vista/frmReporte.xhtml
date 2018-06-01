@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+            <h:form  id="frmReporte">
+                <p:growl autoUpdate="true"/>
+                <p:panel  header="Generacion de Reporte">
+                    <p:panelGrid id="selector" columns="2">
+                        <p:outputLabel style="font-weight:bold" for="reporte" value="Tipo de Reporte"/>
+                        <p:selectOneMenu id="reporte" value="#{reporteControl.tipoReporte}" required="true">
+                            <f:selectItem itemLabel="---Seleccione el Tipo de Reporte---" itemValue="#{null}"/>
+                            <f:selectItem itemLabel="Asistentecia" itemValue="1" />
+                            <f:selectItem itemLabel="Bautismo" itemValue="2" />
+                            <f:selectItem itemLabel="Boda" itemValue="3" />
+                            <f:selectItem itemLabel="Conversion" itemValue="4" />
+                            <f:selectItem itemLabel="Ofrenda" itemValue="5" />
+                            <f:selectItem itemLabel="Presentacion de Niños" itemValue="6" />
+                            <f:selectItem itemLabel="Reporte de Misiones" itemValue="7" />
+                            <p:ajax update="seccion" />
+                        </p:selectOneMenu>
+                        <p:outputLabel style="font-weight:bold" for="seccion" value="Reporte por:"/>
+                        <p:selectOneMenu id="seccion" value="#{reporteControl.tipoSeccion}" required="true">
+                            <f:selectItem itemLabel="---Seleccione el Tipo de Reporte---" itemValue="#{null}"/>
+                            <f:selectItem itemLabel="Zona" itemValue="1" itemDisabled="#{(reporteControl.tipoReporte == 7 )}"/>
+                            <f:selectItem itemLabel="Pais" itemValue="2" itemDisabled="#{(reporteControl.tipoReporte == 7 )}"/>
+                            <f:selectItem itemLabel="Departamento, Estado o Provincia" itemValue="3" itemDisabled="#{(reporteControl.tipoReporte == 7 )}"/>
+                            <f:selectItem itemLabel="Municipio o Ciudad" itemValue="4" itemDisabled="#{(reporteControl.tipoReporte == 7 )}"/>
+                            <f:selectItem itemLabel="Iglesia" itemValue="5" />
+                            <f:selectItem itemLabel="Cultos" itemValue="6" itemDisabled="#{(reporteControl.tipoReporte == 7 || reporteControl.tipoReporte == 6 || reporteControl.tipoReporte == 3 ||reporteControl.tipoReporte == 2)}"/>
+                            <f:ajax render="seleccion" />
+                        </p:selectOneMenu>
+                        <p:outputLabel style="font-weight:bold" for="fechainicio" value="Fecha de Inicio Reporte:"/>
+                        <p:calendar id="fechainicio" value="#{reporteControl.fechaInicio}" placeholder="Fecha Inicio" pattern="MM-dd-yyyy" required="true"/>
+                        <p:outputLabel style="font-weight:bold" for="fechafin" value="Fecha de Fin Reporte:"/>
+                        <p:calendar id="fechafin" value="#{reporteControl.fechaFin}" placeholder="Fecha Fin" pattern="MM-dd-yyyy" required="true"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" id="seleccion">
+                        <p:outputLabel style="font-weight:bold" for="zona" value="Zona:" rendered="#{reporteControl.tipoSeccion == 1}"/>
+                        <p:selectOneMenu id="zona" converter="entityConverter" var="zona" value="#{reporteControl.zonaSelected}" rendered="#{reporteControl.tipoSeccion == 1}">
+                            <f:selectItem itemLabel="---Seleccione el Zona---" itemValue="#{null}"/>
+                            <f:selectItems value="#{reporteControl.lstZona}" var="zona" itemLabel="#{zona.descripcion}" itemValue="#{zona}"/>
+                            <p:column>
+                                <h:outputText value="#{zona.descripcion}"/>
+                            </p:column>
+                        </p:selectOneMenu>
+                        <p:outputLabel style="font-weight:bold" for="pais" value="Pais:" rendered="#{reporteControl.tipoSeccion >= 2}"/>
+                        <p:selectOneMenu id="pais" converter="entityConverter" var="pais" value="#{reporteControl.paisSelected}" rendered="#{reporteControl.tipoSeccion >= 2}" filter="true" filterMatchMode="contains">
+                            <f:selectItem itemLabel="---Seleccione el Pais---" itemValue="#{null}"/>
+                            <f:selectItems value="#{reporteControl.lstPais}" var="pais" itemLabel="#{pais.descripcion}" itemValue="#{pais}"/>
+                            <p:column>
+                                <h:outputText value="#{pais.descripcion}"/>
+                            </p:column>
+                            <p:ajax event="change" update="departamento" listener="#{reporteControl.listarDepartamentos()}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel style="font-weight:bold" for="departamento" value="Departamento:" rendered="#{reporteControl.tipoSeccion >= 3}"/>
+                        <p:selectOneMenu id="departamento" converter="entityConverter" var="departamento" value="#{reporteControl.departamentoSelected}" rendered="#{reporteControl.tipoSeccion >= 3}" filter="true" filterMatchMode="contains">
+                            <f:selectItem itemLabel="---Seleccione el Departamento---" itemValue="#{null}"/>
+                            <f:selectItems value="#{reporteControl.lstDepartamento}" var="departamento" itemLabel="#{departamento.descripcion}" itemValue="#{departamento}"/>
+                            <p:column>
+                                <h:outputText value="#{departamento.descripcion}"/>
+                            </p:column>
+                            <p:ajax event="change" update="municipio" listener="#{reporteControl.listarMunicipios()}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel style="font-weight:bold" for="municipio" value="Municipio:" rendered="#{reporteControl.tipoSeccion >= 4}"/>
+                        <p:selectOneMenu id="municipio" converter="entityConverter" var="municipio" value="#{reporteControl.municipioSelected}" rendered="#{reporteControl.tipoSeccion >= 4}" filter="true" filterMatchMode="contains">
+                            <f:selectItem itemLabel="---Seleccione el Municipio---" itemValue="#{null}"/>
+                            <f:selectItems value="#{reporteControl.lstMunicipio}" var="municipio" itemLabel="#{municipio.descripcion}" itemValue="#{municipio}"/>
+                            <p:column>
+                                <h:outputText value="#{municipio.descripcion}"/>
+                            </p:column>
+                            <p:ajax event="change" update="iglesia" listener="#{reporteControl.listarIglesias()}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel style="font-weight:bold" for="iglesia" value="Iglesia:" rendered="#{reporteControl.tipoSeccion >= 5}"/>
+                        <p:selectOneMenu id="iglesia" converter="entityConverter" var="iglesia" value="#{reporteControl.iglesiaSelected}" rendered="#{reporteControl.tipoSeccion >= 5}" filter="true" filterMatchMode="contains">
+                            <f:selectItem itemLabel="---Seleccione la Iglesia---" itemValue="#{null}"/>
+                            <f:selectItems value="#{reporteControl.lstIglesia}" var="iglesia" itemLabel="#{iglesia.descripcion}" itemValue="#{iglesia}"/>
+                            <p:column>
+                                <h:outputText value="#{iglesia.descripcion}"/>
+                            </p:column>
+                            <p:ajax event="change" update="culto" listener="#{reporteControl.listarCultos()}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel style="font-weight:bold" for="culto" value="Culto" rendered="#{reporteControl.tipoSeccion >= 6}"/>
+                        <p:selectOneMenu id="culto" converter="entityConverter" var="culto" value="#{reporteControl.cultoSelected}" rendered="#{reporteControl.tipoSeccion >= 6}" filter="true" filterMatchMode="contains">
+                            <f:selectItem itemLabel="---Seleccione el Culto---" itemValue="#{null}"/>
+                            <f:selectItems value="#{reporteControl.lstCulto}" var="culto" itemLabel="#{culto.descripcion}" itemValue="#{culto}"/>
+                            <p:column>
+                                <h:outputText value="#{culto.descripcion}"/>
+                            </p:column>
+                        </p:selectOneMenu>                        
+                    </p:panelGrid>
+                    <p:panelGrid id="buttons" columns="3">
+                        <p:commandButton id="btnPDF" value="GENERAR REPORTE" ajax="false" action="#{reporteControl.generarReporte('pdf')}" onclick="target = '_blank'" icon="ui-icon-script"/>
+                        <p:commandButton value="INICIO" process="@this" action="/faces/Catalogos/inicio.xhtml" icon="ui-icon-circle-zoomin"/>
+                        <p:commandButton value="REFRESCAR" process="@this" icon="ui-icon-refresh" onclick="window.location.reload()"/>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

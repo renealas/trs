@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../Plantilla/plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="ui-fluid">
+        <h:form id="frmMunicipio">
+            <p:growl autoUpdate="true"/>
+            <p:dataTable var="municipio" paginator="true" rows="5" paginatorPosition="bottom" rowHover="true" rowsPerPageTemplate="5,10,15"  widgetVar="wtblMunicipio" value="#{municipioControl.lstMunicipio}" id="tblMunicipio" filteredValue="#{municipioControl.lstMunicipioFiltrada}" styleClass="fixed-size" reflow="true">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputLabel value="Búsqueda: "/>
+                        <p:inputText id="globalFilter" 
+                                     onkeyup="PF('wtblMunicipio').filter()" 
+                                     style="text-input" 
+                                     placeholder="Ingrese la búsqueda"/>
+                        <p:commandButton value="NUEVO MUNICIPIO (CIUDAD)" action="frmMunicipio.xhtml?faces-redirect=true" actionListener="#{municipioControl.limpiarObjeto()}" icon="ui-icon-circle-plus">
+                            <f:setPropertyActionListener target="#{municipioControl.accion}" value="AGREGAR"/>
+                        </p:commandButton>    
+                    </p:outputPanel>
+                </f:facet>
+                <p:column headerText="DEPARTAMENTO (ESTADO O PROVINCIA)" filterBy="#{municipio.iddepartamento.descripcion}" sortBy="#{municipio.iddepartamento.descripcion}">        
+                    <p:outputLabel value="#{municipio.iddepartamento.descripcion}"/>
+                </p:column>
+                <p:column headerText="MUNICIPIO (CIUDAD)" filterBy="#{municipio.descripcion}" sortBy="#{municipio.descripcion}">
+                    <p:outputLabel value="#{municipio.descripcion}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="MODIFICAR MUNICIPIO (CIUDAD)" action="frmMunicipio.xhtml?faces-redirect=true" icon="ui-icon-pencil" style="buttonwrap">
+                        <f:setPropertyActionListener target="#{municipioControl.accion}" value="MODIFICAR"/>
+                        <f:setPropertyActionListener target="#{municipioControl.municipioSelected}" value="#{municipio}"/>
+                    </p:commandButton>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="BORRAR MUNICIPIO (CIUDAD)" oncomplete="PF('wdlgBorrar').show()" update=":frmMunicipio" icon="ui-icon-trash">
+                        <f:setPropertyActionListener target="#{municipioControl.municipioSelected}" value="#{municipio}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>       
+        <p:dialog widgetVar="wdlgBorrar" id="dlgBorrar" modal="true">
+            <h:form>    
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:outputLabel value="Desea borrar el Municipio (Ciudad) seleccionado?"/>.
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:commandButton value="SI" oncomplete="PF('wdlgBorrar').hide()" actionListener="#{municipioControl.borrarMunicipio()}" update=":frmMunicipio" ajax="true"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="NO" oncomplete="PF('wdlgBorrar').hide()"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog> 
+        </div>
+    </ui:define>
+
+</ui:composition>
